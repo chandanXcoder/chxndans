@@ -41,7 +41,7 @@ export default function About({ compact = false }: { compact?: boolean }) {
   );
 
   return (
-    <section ref={ref} id="about" className="py-24 md:py-40">
+    <section ref={ref} id="about" className="card py-20 md:py-28">
       <div className="container-x">
         <p className="mb-10 flex items-center gap-3 text-lg text-fg">
           <span className="h-2 w-2 rounded-full bg-fg" />

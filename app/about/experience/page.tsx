@@ -25,9 +25,7 @@ export default function ExperiencePage() {
       >
         <SubNav section="About" />
       </PageHeader>
-      <div className="-mt-12 md:-mt-20">
-        <Experience heading={false} />
-      </div>
+      <Experience heading={false} />
       <CTA />
     </>
   );

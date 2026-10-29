@@ -50,7 +50,7 @@ export default function Hero() {
   return (
     <section
       ref={ref}
-      className="relative overflow-hidden pt-36 pb-16 md:pt-48 md:pb-24"
+      className="card relative overflow-hidden pt-36 pb-16 md:pt-48 md:pb-24"
     >
       {/* glow */}
       <div

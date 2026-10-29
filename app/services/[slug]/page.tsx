@@ -30,7 +30,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
 
   return (
     <>
-      <section className="pt-32 pb-16 md:pt-44 md:pb-24">
+      <section className="card pt-32 pb-16 md:pt-44 md:pb-24">
         <Reveal stagger={0.1} className="container-x">
           <Link
             href="/services"
@@ -55,7 +55,8 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
         </Reveal>
       </section>
 
-      <section className="container-x pb-24 md:pb-36">
+      <section className="card py-20 md:py-28">
+        <div className="container-x">
         <Reveal className="mb-12 grid gap-6 md:mb-16 md:grid-cols-2 md:gap-10">
           <p className="flex items-center gap-3 self-start text-lg md:pt-3">
             <span className="h-2 w-2 rounded-full bg-fg" />
@@ -85,12 +86,14 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
             ))}
           </div>
         </Reveal>
+        </div>
       </section>
 
       <Process />
 
       {project && (
-        <section className="container-x py-24 md:py-36">
+        <section className="card py-20 md:py-28">
+          <div className="container-x">
           <Reveal className="group grid gap-10 md:grid-cols-2 md:items-center md:gap-16">
             <Link href={`/work/${project.slug}`} aria-label={`${project.title} case study`}>
               <ProjectVisual p={project} index={projectIndex} />
@@ -107,10 +110,12 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
               </Button>
             </div>
           </Reveal>
+          </div>
         </section>
       )}
 
-      <section className="container-x pb-24 md:pb-32">
+      <section className="card py-20 md:py-28">
+        <div className="container-x">
         <p className="mb-8 flex items-center gap-3 text-lg">
           <span className="h-2 w-2 rounded-full bg-fg" />
           Other services
@@ -126,6 +131,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
               <Arrow className="h-5! w-5! transition-transform duration-300 group-hover:rotate-45" />
             </Link>
           ))}
+        </div>
         </div>
       </section>
 

@@ -23,9 +23,7 @@ export default function WorkPage() {
         }
         sub="Every project here is real: a digital news portal, a paying client's e-commerce store and an app live on the Play Store."
       />
-      <div className="-mt-12 md:-mt-24">
-        <Projects heading={false} />
-      </div>
+      <Projects heading={false} />
       <CTA />
     </>
   );

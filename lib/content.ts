@@ -256,6 +256,7 @@ export const contact = {
   sub: "Whether it's a startup MVP, a client store or a crazy hackathon prototype, I'd love to hear about it.",
   projectTypes: ["Website", "Web App", "Mobile App", "E-commerce", "Internship / Job", "Other"],
   budgets: ["< ₹10k", "₹10k – ₹30k", "₹30k – ₹80k", "₹80k+", "Not sure yet"],
+  timelines: ["ASAP", "2–4 weeks", "1–2 months", "Flexible"],
 };
 
 export type Service = {
@@ -405,10 +406,19 @@ export const achievements = [
   { value: "4+", unit: "events", title: "Major campus events", text: "Helped organise Invertia 2026, Invertthon 2.0, LinkedIn Summit and AR/VR workshops." },
 ];
 
+export type NavLink = {
+  label: string;
+  href: string;
+  desc?: string;
+  image?: string;
+  external?: boolean;
+};
+
 export type NavItem = {
   label: string;
   href: string;
-  children?: { label: string; href: string; external?: boolean }[];
+  intro?: string;
+  children?: NavLink[];
 };
 
 export const nav: NavItem[] = [
@@ -416,36 +426,42 @@ export const nav: NavItem[] = [
   {
     label: "About",
     href: "/about",
+    intro: "Full-stack developer and CSE student at Invertis University.",
     children: [
-      { label: "Overview", href: "/about" },
-      { label: "Experience", href: "/about/experience" },
-      { label: "Skills", href: "/about/skills" },
-      { label: "Achievements", href: "/about/achievements" },
+      { label: "Overview", href: "/about", desc: "Who I am and how I work" },
+      { label: "Experience", href: "/about/experience", desc: "Freelance work, club leadership and events" },
+      { label: "Skills", href: "/about/skills", desc: "My stack across web, mobile and backend" },
+      { label: "Achievements", href: "/about/achievements", desc: "Streaks, hackathons and milestones" },
     ],
   },
   {
     label: "Work",
     href: "/work",
+    intro: "Real products, shipped for real users.",
     children: [
       { label: "All projects", href: "/work" },
-      ...projects.map((p) => ({ label: p.title, href: `/work/${p.slug}` })),
+      ...projects.map((p) => ({ label: p.title, href: `/work/${p.slug}`, desc: p.category, image: p.image })),
     ],
   },
   {
     label: "Services",
     href: "/services",
+    intro: "Everything your product needs to launch, built by one developer.",
     children: [
       { label: "All services", href: "/services" },
-      ...services.map((s) => ({ label: s.title, href: `/services/${s.slug}` })),
+      ...services.map((s) => ({ label: s.title, href: `/services/${s.slug}`, desc: s.desc })),
     ],
   },
   {
     label: "Contact",
     href: "/contact",
+    intro: "Open for freelance projects, internships and collaborations.",
     children: [
-      { label: "Start a project", href: "/contact" },
-      { label: "FAQ", href: "/contact/faq" },
-      { label: "WhatsApp", href: site.socials.whatsapp, external: true },
+      { label: "Send a message", href: "/contact", desc: "Tell me about your idea, I reply within 24 hours" },
+      { label: "Book a call", href: "/contact/book-call", desc: "Pick a free 30-minute slot that suits you" },
+      { label: "Book a project", href: "/contact/book-project", desc: "Share scope, budget and timeline to get started" },
+      { label: "FAQ", href: "/contact/faq", desc: "Availability, process and timelines" },
+      { label: "WhatsApp", href: site.socials.whatsapp, desc: "Chat with me directly", external: true },
     ],
   },
 ];

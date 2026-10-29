@@ -10,12 +10,12 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <>
-      <div className="container-x pt-28 md:pt-32">
-        <SubNav section="Contact" />
+      <div className="card pt-28 pb-8 md:pt-32">
+        <div className="container-x">
+          <SubNav section="Contact" />
+        </div>
       </div>
-      <div className="-mt-8">
-        <Contact />
-      </div>
+      <Contact />
     </>
   );
 }

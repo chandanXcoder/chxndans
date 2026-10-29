@@ -3,7 +3,8 @@ import Reveal from "./ui/Reveal";
 
 export default function Achievements() {
   return (
-    <section className="container-x pb-24 md:pb-36">
+    <section className="card py-8 md:py-12">
+      <div className="container-x">
       <Reveal stagger={0.08} className="grid gap-px overflow-hidden rounded-[2rem] border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
         {achievements.map((a) => (
           <div key={a.title} className="flex flex-col bg-bg p-8 md:p-10">
@@ -16,6 +17,7 @@ export default function Achievements() {
           </div>
         ))}
       </Reveal>
+      </div>
     </section>
   );
 }

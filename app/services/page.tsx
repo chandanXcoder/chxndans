@@ -23,13 +23,9 @@ export default function ServicesPage() {
         }
         sub="Everything your product needs to launch, from the first screen to the server, built and supported by one developer."
       />
-      <div className="-mt-16 md:-mt-24">
-        <Services heading={false} showAll={false} />
-      </div>
+      <Services heading={false} showAll={false} />
       <Process />
-      <div className="pt-24 md:pt-32">
-        <CTA />
-      </div>
+      <CTA />
     </>
   );
 }

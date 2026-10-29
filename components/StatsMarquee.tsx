@@ -4,7 +4,7 @@ export default function StatsMarquee() {
   // Rendered twice so the -50% translate loops seamlessly.
   const row = [...stats, ...stats];
   return (
-    <div className="marquee overflow-hidden border-y border-line bg-surface/40 py-6">
+    <div className="card marquee overflow-hidden py-6">
       <div className="marquee-track flex w-max">
         {row.map((s, i) => (
           <div

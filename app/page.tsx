@@ -16,9 +16,7 @@ export default function Home() {
       <Services />
       <About compact />
       <Skills />
-      <div className="pt-24 md:pt-32">
-        <CTA />
-      </div>
+      <CTA />
     </>
   );
 }

@@ -20,7 +20,7 @@ export default function Services({
   showAll?: boolean;
 }) {
   return (
-    <section id="services" className="py-24 md:py-36">
+    <section id="services" className="card py-20 md:py-28">
       <div className="container-x">
         {heading && (
           <SectionHeading

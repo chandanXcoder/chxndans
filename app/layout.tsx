@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import SmoothScroll from "@/components/SmoothScroll";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import SiteOnly from "@/components/SiteOnly";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -31,12 +32,18 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {/* usePathname can suspend on unknown dynamic routes (e.g. a 404 slug) */}
         <Suspense>
           <SmoothScroll />
-          <Navbar />
+          <SiteOnly>
+            <Navbar />
+          </SiteOnly>
         </Suspense>
         <div className="grain" aria-hidden />
         <div className="shell">
           <main>{children}</main>
-          <Footer />
+          <Suspense>
+            <SiteOnly>
+              <Footer />
+            </SiteOnly>
+          </Suspense>
         </div>
       </body>
     </html>

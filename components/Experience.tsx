@@ -4,7 +4,7 @@ import Reveal from "./ui/Reveal";
 
 export default function Experience({ heading = true }: { heading?: boolean }) {
   return (
-    <section id="experience" className="py-24 md:py-40">
+    <section id="experience" className="card py-20 md:py-28">
       <div className="container-x">
         {heading && (
           <SectionHeading

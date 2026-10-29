@@ -80,7 +80,7 @@ export default function Projects({
   heading = true,
 }: Props) {
   return (
-    <section id="work" className="py-24 md:py-40">
+    <section id="work" className="card py-20 md:py-28">
       <div className="container-x">
         {heading && (
           <SectionHeading

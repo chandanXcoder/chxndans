@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { nav, site, type NavItem } from "@/lib/content";
-import Button from "./ui/Button";
+import { nav, site, type NavItem, type NavLink } from "@/lib/content";
+import Button, { Arrow } from "./ui/Button";
 
 function Chevron({ open }: { open?: boolean }) {
   return (
@@ -23,56 +24,113 @@ function linkProps(href: string, external?: boolean) {
   return external ? { href, target: "_blank", rel: "noopener noreferrer" } : { href };
 }
 
-// Desktop item: hover or keyboard focus opens the dropdown panel.
+function Logo({ onClick }: { onClick?: () => void }) {
+  return (
+    <Link href="/" onClick={onClick} className="flex items-center gap-3" aria-label={`${site.fullName}, home`}>
+      <span className="relative">
+        <Image
+          src={site.photo}
+          alt=""
+          width={40}
+          height={40}
+          className="h-10 w-10 rounded-full object-cover object-[50%_20%]"
+        />
+        <span className="absolute right-0 bottom-0 h-2.5 w-2.5 rounded-full bg-emerald-500 ring-2 ring-bg" />
+      </span>
+      <span className="leading-tight">
+        <span className="block font-display text-[17px] font-semibold tracking-tight">{site.fullName}</span>
+        <span className="block text-xs text-muted">Full-stack developer</span>
+      </span>
+    </Link>
+  );
+}
+
+// One row inside a mega-menu panel: thumbnail or number, title and a short description.
+function PanelLink({ link, n, current }: { link: NavLink; n: number; current: boolean }) {
+  return (
+    <Link
+      {...linkProps(link.href, link.external)}
+      aria-current={current ? "page" : undefined}
+      className={`group/link flex items-start gap-4 rounded-2xl p-3 transition-colors hover:bg-surface ${current ? "bg-surface" : ""}`}
+    >
+      {link.image ? (
+        <span className="relative aspect-[16/10] w-24 shrink-0 overflow-hidden rounded-lg bg-[#1d1e21]">
+          <Image src={link.image} alt="" fill sizes="96px" className="object-cover object-top" />
+        </span>
+      ) : (
+        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-surface text-xs text-muted transition-colors group-hover/link:bg-bg">
+          {link.external ? "↗" : String(n).padStart(2, "0")}
+        </span>
+      )}
+      <span className="min-w-0">
+        <span className="flex items-center gap-2 font-medium text-fg">
+          {link.label}
+          <Arrow className="opacity-0 transition-[opacity,transform] duration-300 group-hover/link:translate-x-0.5 group-hover/link:opacity-100" />
+        </span>
+        {link.desc && <span className="mt-0.5 line-clamp-2 text-sm leading-snug text-muted">{link.desc}</span>}
+      </span>
+    </Link>
+  );
+}
+
+// Desktop item: hover or keyboard focus opens a mega-menu panel under the bar.
 function DesktopItem({ item, active, pathname }: { item: NavItem; active: boolean; pathname: string }) {
-  const underline = `after:absolute after:inset-x-4 after:bottom-1 after:h-px after:origin-left after:bg-fg after:transition-transform after:duration-300 ${
-    active ? "after:scale-x-100" : "after:scale-x-0 hover:after:scale-x-100"
+  const pill = `rounded-full px-4 py-2 text-[15px] transition-colors ${
+    active ? "bg-surface text-fg" : "text-fg/70 hover:bg-surface hover:text-fg"
   }`;
 
   if (!item.children) {
     return (
-      <Link
-        href={item.href}
-        aria-current={active ? "page" : undefined}
-        className={`relative px-4 py-2 text-[17px] transition-colors ${underline} ${active ? "text-fg" : "text-muted hover:text-fg"}`}
-      >
+      <Link href={item.href} aria-current={active ? "page" : undefined} className={pill}>
         {item.label}
       </Link>
     );
   }
 
+  // the overview link (same href as the section) lives in the intro column instead of the grid
+  const links = item.children.filter((c) => c.href !== item.href);
+  const wide = links.length > 4;
+
   return (
-    <div className="group/dd relative">
+    <div className="group/dd">
       <Link
         href={item.href}
         aria-haspopup="true"
-        className={`relative flex items-center gap-1.5 px-4 py-2 text-[17px] transition-colors ${underline} ${
-          active ? "text-fg" : "text-muted hover:text-fg"
-        }`}
+        className={`flex items-center gap-1.5 ${pill} group-hover/dd:bg-surface group-hover/dd:text-fg`}
       >
         {item.label}
         <span className="transition-transform duration-300 group-hover/dd:rotate-180 group-focus-within/dd:rotate-180">
           <Chevron />
         </span>
       </Link>
-      <div className="invisible absolute top-full left-1/2 z-50 -translate-x-1/2 pt-3 opacity-0 transition-[opacity,visibility] duration-300 group-hover/dd:visible group-hover/dd:opacity-100 group-focus-within/dd:visible group-focus-within/dd:opacity-100">
-        <div className="min-w-72 translate-y-2 whitespace-nowrap rounded-2xl border border-line bg-bg p-2 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.25)] transition-transform duration-300 group-hover/dd:translate-y-0 group-focus-within/dd:translate-y-0">
-          {item.children.map((c) => {
-            const current = !c.external && pathname === c.href;
-            return (
-              <Link
-                key={c.href}
-                {...linkProps(c.href, c.external)}
-                aria-current={current ? "page" : undefined}
-                className={`flex items-center justify-between gap-6 rounded-xl px-4 py-2.5 text-[15px] transition-colors hover:bg-surface ${
-                  current ? "bg-surface text-fg" : "text-fg/80"
-                }`}
-              >
-                {c.label}
-                <span className="text-muted">{c.external ? "↗" : "→"}</span>
-              </Link>
-            );
-          })}
+      <div className={`invisible absolute top-full left-1/2 z-50 ${wide ? "w-[min(880px,calc(100vw-2rem))]" : "w-[min(620px,calc(100vw-2rem))]"} -translate-x-1/2 pt-3 opacity-0 transition-[opacity,visibility] duration-300 group-hover/dd:visible group-hover/dd:opacity-100 group-focus-within/dd:visible group-focus-within/dd:opacity-100`}
+      >
+        <div className="grid translate-y-2 grid-cols-[240px_1fr] gap-2 rounded-[1.75rem] border border-line bg-bg p-2 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.25)] transition-transform duration-300 group-hover/dd:translate-y-0 group-focus-within/dd:translate-y-0">
+          <div className="relative flex flex-col justify-between overflow-hidden rounded-[1.25rem] bg-surface p-6">
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -right-16 -bottom-20 h-48 w-48 rounded-full bg-glow/70 blur-[60px]"
+            />
+            <div className="relative">
+              <p className="mb-3 flex items-center gap-2 text-sm text-muted">
+                <span className="h-1.5 w-1.5 rounded-full bg-fg" />
+                {item.label}
+              </p>
+              <p className="font-display text-xl leading-snug tracking-tight">{item.intro}</p>
+            </div>
+            <Link
+              href={item.href}
+              className="relative mt-8 inline-flex items-center gap-2 self-start rounded-full bg-bg px-4 py-2 text-sm transition-colors hover:bg-fg hover:text-bg"
+            >
+              {item.children.find((c) => c.href === item.href)?.label ?? `All ${item.label.toLowerCase()}`}
+              <Arrow />
+            </Link>
+          </div>
+          <div className={`grid content-start gap-1 p-2 ${wide ? "grid-cols-2" : "grid-cols-1"}`}>
+            {links.map((c, i) => (
+              <PanelLink key={c.href} link={c} n={i + 1} current={!c.external && pathname === c.href} />
+            ))}
+          </div>
         </div>
       </div>
     </div>
@@ -84,6 +142,8 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [expanded, setExpanded] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const lastY = useRef(0);
 
   const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
   const close = () => {
@@ -91,8 +151,14 @@ export default function Navbar() {
     setExpanded(null);
   };
 
+  // tuck the bar away while scrolling down, bring it back on scroll up
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    const onScroll = () => {
+      const y = window.scrollY;
+      setScrolled(y > 24);
+      setHidden(y > 400 && y > lastY.current);
+      lastY.current = y;
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -105,25 +171,35 @@ export default function Navbar() {
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color] duration-500 ${
-          scrolled || open ? "border-b border-line bg-bg/85 backdrop-blur-xl" : "border-b border-transparent"
+        className={`fixed inset-x-0 top-0 z-50 px-2 pt-2 transition-transform duration-500 ease-out md:px-4 md:pt-3 ${
+          hidden && !open ? "-translate-y-[120%]" : ""
         }`}
       >
-        <div className="container-x flex h-18 items-center justify-between">
-          <Link href="/" onClick={close} className="font-display text-xl font-semibold tracking-tight">
-            {site.name}
-            <span className="text-glow">.</span>
-          </Link>
+        <div
+          className={`relative mx-auto flex h-16 max-w-[1528px] items-center justify-between rounded-full border bg-bg/85 pr-2 pl-3 backdrop-blur-xl transition-[border-color,box-shadow] duration-500 md:h-[72px] md:pr-3 ${
+            scrolled || open
+              ? "border-line shadow-[0_10px_40px_-15px_rgba(0,0,0,0.2)]"
+              : "border-transparent"
+          }`}
+        >
+          <Logo onClick={close} />
 
-          <nav className="hidden items-center gap-1 lg:flex">
+          <nav className="hidden items-center gap-1 lg:flex" aria-label="Main">
             {nav.map((item) => (
               <DesktopItem key={item.href} item={item} active={isActive(item.href)} pathname={pathname} />
             ))}
           </nav>
 
-          <div className="hidden lg:block">
-            <Button href="/contact" variant="soft" className="py-3! text-base!">
-              Let&apos;s chat <span aria-hidden>👋</span>
+          <div className="hidden items-center gap-4 lg:flex">
+            <span className="hidden items-center gap-2 text-sm text-muted xl:flex">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60 motion-reduce:hidden" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+              </span>
+              Available for work
+            </span>
+            <Button href="/contact" className="py-3! text-[15px]!">
+              Let&apos;s talk
             </Button>
           </div>
 
@@ -131,7 +207,7 @@ export default function Navbar() {
             onClick={() => (open ? close() : setOpen(true))}
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
-            className="relative z-50 grid h-11 w-11 place-items-center rounded-full border border-line lg:hidden"
+            className="relative grid h-12 w-12 place-items-center rounded-full bg-surface lg:hidden"
           >
             <span
               className={`absolute h-px w-5 bg-fg transition-transform duration-300 ${open ? "rotate-45" : "-translate-y-1"}`}
@@ -145,18 +221,18 @@ export default function Navbar() {
 
       {/* full-screen mobile menu with expandable sections */}
       <div
-        className={`fixed inset-0 z-40 flex flex-col overflow-y-auto bg-bg px-4 pt-24 pb-10 transition-[opacity,visibility] duration-500 lg:hidden ${
+        className={`fixed inset-0 z-40 flex flex-col overflow-y-auto bg-page px-2 pt-22 pb-6 transition-[opacity,visibility] duration-500 lg:hidden ${
           open ? "visible opacity-100" : "invisible opacity-0"
         }`}
       >
-        <nav className="flex flex-col">
+        <nav className="flex flex-col rounded-[1.75rem] bg-bg px-5 py-2" aria-label="Mobile">
           {nav.map((item, i) => {
             const isOpen = expanded === item.label;
             return (
               <div
                 key={item.href}
                 style={{ transitionDelay: open ? `${100 + i * 50}ms` : "0ms" }}
-                className={`border-b border-line transition-[transform,opacity] duration-500 ${
+                className={`border-b border-line transition-[transform,opacity] duration-500 last:border-b-0 ${
                   open ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
                 }`}
               >
@@ -164,7 +240,7 @@ export default function Navbar() {
                   <Link
                     href={item.href}
                     onClick={close}
-                    className={`flex-1 py-4 font-display text-3xl ${isActive(item.href) ? "text-fg" : "text-fg/80"}`}
+                    className={`flex-1 py-4 font-display text-3xl tracking-tight ${isActive(item.href) ? "text-fg" : "text-fg/70"}`}
                   >
                     {item.label}
                   </Link>
@@ -173,7 +249,7 @@ export default function Navbar() {
                       onClick={() => setExpanded(isOpen ? null : item.label)}
                       aria-label={`${isOpen ? "Hide" : "Show"} ${item.label} pages`}
                       aria-expanded={isOpen}
-                      className="grid h-10 w-10 place-items-center rounded-full border border-line"
+                      className="grid h-10 w-10 place-items-center rounded-full bg-surface"
                     >
                       <Chevron open={isOpen} />
                     </button>
@@ -186,14 +262,14 @@ export default function Navbar() {
                     }`}
                   >
                     <div className="overflow-hidden">
-                      <div className="flex flex-col pb-4">
+                      <div className="flex flex-col gap-1 pb-4">
                         {item.children.map((c) => (
                           <Link
                             key={c.href}
                             {...linkProps(c.href, c.external)}
                             onClick={close}
-                            className={`flex items-center justify-between py-2 text-lg ${
-                              !c.external && pathname === c.href ? "text-fg" : "text-muted"
+                            className={`flex items-center justify-between rounded-xl px-3 py-2.5 text-lg ${
+                              !c.external && pathname === c.href ? "bg-surface text-fg" : "text-muted"
                             }`}
                           >
                             {c.label}
@@ -208,11 +284,15 @@ export default function Navbar() {
             );
           })}
         </nav>
-        <div className="mt-10 flex flex-col gap-3">
-          <a href={`mailto:${site.email}`} className="text-muted">
+        <div className="mt-2 flex flex-col gap-3 rounded-[1.75rem] bg-bg p-5">
+          <p className="flex items-center gap-2 text-sm text-muted">
+            <span className="h-2 w-2 rounded-full bg-emerald-500" />
+            Available for work
+          </p>
+          <a href={`mailto:${site.email}`} className="text-lg">
             {site.email}
           </a>
-          <a href={site.phoneHref} className="text-muted">
+          <a href={site.phoneHref} className="text-lg">
             {site.phone}
           </a>
           <Button href="/contact" className="mt-2 justify-between" onClick={close}>

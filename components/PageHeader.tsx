@@ -10,7 +10,7 @@ type Props = {
 // Large intro block at the top of inner pages.
 export default function PageHeader({ label, title, sub, children }: Props) {
   return (
-    <section className="relative overflow-hidden pt-36 pb-12 md:pt-48 md:pb-20">
+    <section className="card relative overflow-hidden pt-36 pb-12 md:pt-48 md:pb-20">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,var(--line)_1px,transparent_1px),linear-gradient(to_bottom,var(--line)_1px,transparent_1px)] bg-size-[80px_80px] mask-[radial-gradient(ellipse_at_top,black,transparent_70%)] opacity-50"

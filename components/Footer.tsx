@@ -12,8 +12,12 @@ const socials = [
 
 export default function Footer() {
   return (
-    <footer className="overflow-hidden border-t border-line pt-20 pb-8">
+    <footer className="overflow-hidden pt-8 pb-8 md:pt-12">
       <div className="container-x">
+        <p className="mb-10 flex items-center gap-3 text-lg md:mb-14">
+          <span className="h-2 w-2 rounded-full bg-fg" />
+          Contact us
+        </p>
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1.3fr_1fr]">
           <div>
             <p className="max-w-sm font-display text-2xl leading-snug tracking-tight md:text-3xl">

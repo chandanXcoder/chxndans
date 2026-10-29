@@ -26,9 +26,7 @@ export default function SkillsPage() {
         <SubNav section="About" />
       </PageHeader>
       <Skills heading={false} />
-      <div className="pt-24 md:pt-32">
-        <CTA />
-      </div>
+      <CTA />
     </>
   );
 }

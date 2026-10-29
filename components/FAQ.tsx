@@ -8,7 +8,7 @@ export default function FAQ() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section id="faq" className="bg-surface/40 py-24 md:py-40">
+    <section id="faq" className="card py-20 md:py-28">
       <div className="container-x grid gap-4 md:grid-cols-[1fr_1.4fr] md:gap-20">
         <div className="md:sticky md:top-28 md:self-start">
         <SectionHeading
@@ -32,17 +32,18 @@ export default function FAQ() {
                 <button
                   onClick={() => setOpen(isOpen ? null : i)}
                   aria-expanded={isOpen}
-                  className="flex w-full items-center justify-between gap-6 py-7 text-left"
+                  className="flex w-full items-center gap-4 py-7 text-left md:gap-8"
                 >
-                  <span className="font-display text-xl font-medium tracking-tight md:text-2xl">{f.q}</span>
+                  <span className="w-8 shrink-0 text-muted md:w-10">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="flex-1 font-display text-xl font-medium tracking-tight md:text-2xl">{f.q}</span>
                   <span
-                    className={`relative grid h-10 w-10 shrink-0 place-items-center rounded-full border transition-colors duration-300 ${
-                      isOpen ? "border-accent bg-accent text-accent-ink" : "border-line"
+                    className={`relative grid h-12 w-12 shrink-0 place-items-center rounded-full transition-colors duration-300 md:h-14 md:w-14 ${
+                      isOpen ? "bg-accent text-accent-ink" : "bg-soft hover:bg-glow"
                     }`}
                   >
-                    <span className="absolute h-px w-3.5 bg-current" />
+                    <span className="absolute h-[1.5px] w-4 bg-current" />
                     <span
-                      className={`absolute h-3.5 w-px bg-current transition-transform duration-300 ${isOpen ? "scale-y-0" : ""}`}
+                      className={`absolute h-4 w-[1.5px] bg-current transition-transform duration-300 ${isOpen ? "scale-y-0" : ""}`}
                     />
                   </span>
                 </button>
@@ -52,7 +53,7 @@ export default function FAQ() {
                   }`}
                 >
                   <div className="overflow-hidden">
-                    <p className="max-w-2xl pb-8 leading-relaxed text-muted">{f.a}</p>
+                    <p className="max-w-2xl pb-8 pl-12 leading-relaxed text-muted md:pl-18">{f.a}</p>
                   </div>
                 </div>
               </div>

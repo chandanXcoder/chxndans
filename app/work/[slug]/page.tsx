@@ -28,7 +28,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
 
   return (
     <>
-      <section className="pt-32 md:pt-44">
+      <section className="card pt-32 pb-14 md:pt-44 md:pb-20">
         <div className="container-x">
           <Reveal stagger={0.1}>
             <Link
@@ -59,7 +59,8 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
         </div>
       </section>
 
-      <section className="container-x py-14 md:py-20">
+      <section className="card py-6 md:py-8">
+        <div className="container-x">
         <Reveal>
           <div className="group">
             <ProjectVisual p={p} index={index} className="aspect-[4/3] md:aspect-[16/8]" />
@@ -74,9 +75,11 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
             </div>
           ))}
         </Reveal>
+        </div>
       </section>
 
-      <section className="container-x py-14 md:py-24">
+      <section className="card py-20 md:py-28">
+        <div className="container-x">
         <div className="grid gap-x-20 gap-y-16 md:grid-cols-[1fr_2fr]">
           <Reveal stagger={0.08} className="space-y-8 md:sticky md:top-28 md:self-start">
             <Info label="My role" value={p.role} />
@@ -112,12 +115,14 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
             </Block>
           </div>
         </div>
+        </div>
       </section>
 
-      <section className="container-x pb-24 md:pb-32">
+      <section className="card py-6 md:py-8">
+        <div className="container-x">
         <Link
           href={`/work/${next.slug}`}
-          className="group flex flex-col gap-6 border-y border-line py-12 md:flex-row md:items-center md:justify-between md:py-16"
+          className="group flex flex-col gap-6 py-12 md:flex-row md:items-center md:justify-between md:py-16"
         >
           <div>
             <p className="mb-3 text-xs uppercase tracking-[0.2em] text-muted">Next project</p>
@@ -129,6 +134,7 @@ export default async function CaseStudyPage({ params }: PageProps<"/work/[slug]"
             <Arrow className="h-5! w-5! transition-transform duration-300 group-hover:rotate-45" />
           </span>
         </Link>
+        </div>
       </section>
 
       <CTA />
