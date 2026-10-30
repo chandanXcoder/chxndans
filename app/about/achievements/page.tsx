@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
+import AchievementsScene from "@/components/illustrations/AchievementsScene";
 import SubNav from "@/components/SubNav";
 import Achievements from "@/components/Achievements";
 import CTA from "@/components/CTA";
@@ -13,6 +14,7 @@ export default function AchievementsPage() {
   return (
     <>
       <PageHeader
+        art={<AchievementsScene />}
         label="Achievements"
         title={
           <>

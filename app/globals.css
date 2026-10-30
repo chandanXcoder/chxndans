@@ -114,8 +114,328 @@ main {
   animation-play-state: paused;
 }
 
+/* expertise panel: tile columns drift up / down forever (each track holds its tiles twice) */
+@keyframes drift-up {
+  to {
+    transform: translateY(-50%);
+  }
+}
+@keyframes drift-down {
+  from {
+    transform: translateY(-50%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+.drift-up {
+  animation: drift-up 38s linear infinite;
+}
+.drift-down {
+  animation: drift-down 44s linear infinite;
+}
+.drift:hover .drift-up,
+.drift:hover .drift-down {
+  animation-play-state: paused;
+}
+
+/* developer illustration: floating props, typing code, steam */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--r, 0deg));
+  }
+  50% {
+    transform: translateY(-14px) rotate(calc(var(--r, 0deg) + 4deg));
+  }
+}
+.float {
+  animation: float var(--d, 6s) ease-in-out var(--delay, 0s) infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.spin-slow {
+  animation: spin 14s linear infinite;
+}
+@keyframes type {
+  from {
+    width: 0;
+  }
+}
+.type-line {
+  overflow: hidden;
+  white-space: nowrap;
+  width: calc(var(--n) * 1ch);
+  animation: type calc(var(--n) * 45ms) steps(var(--n)) var(--delay, 0s) both paused;
+}
+.in-view .type-line {
+  animation-play-state: running;
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+.caret {
+  animation: blink 1s steps(1) infinite;
+}
+@keyframes steam {
+  0% {
+    transform: translateY(0) scaleY(0.8);
+    opacity: 0;
+  }
+  40% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-14px) scaleY(1.1);
+    opacity: 0;
+  }
+}
+.steam {
+  animation: steam 2.4s ease-out var(--delay, 0s) infinite;
+}
+
+/* per-page illustrations */
+.spin-rev {
+  animation: spin 10s linear infinite reverse;
+}
+/* badge rides a circle of radius --rad, staying upright */
+@keyframes orbit {
+  from {
+    transform: rotate(var(--start, 0deg)) translateX(var(--rad)) rotate(calc(-1 * var(--start, 0deg)));
+  }
+  to {
+    transform: rotate(calc(var(--start, 0deg) + 360deg)) translateX(var(--rad)) rotate(calc(-1 * var(--start, 0deg) - 360deg));
+  }
+}
+.orbit {
+  animation: orbit var(--d, 20s) linear infinite;
+}
+.orbit-rev {
+  animation: orbit var(--d, 20s) linear infinite reverse;
+}
+@keyframes wiggle {
+  0%,
+  60%,
+  100% {
+    transform: rotate(0);
+  }
+  65%,
+  75%,
+  85% {
+    transform: rotate(-12deg);
+  }
+  70%,
+  80%,
+  90% {
+    transform: rotate(12deg);
+  }
+}
+.wiggle {
+  animation: wiggle 2.6s ease-in-out var(--delay, 0s) infinite;
+}
+@keyframes swing {
+  0%,
+  100% {
+    transform: rotate(-10deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+}
+.swing {
+  transform-origin: top center;
+  animation: swing 3s ease-in-out infinite;
+}
+@keyframes pop {
+  0%,
+  100% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  15%,
+  70% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.pop {
+  animation: pop var(--d, 4s) ease-in-out var(--delay, 0s) infinite both;
+}
+@keyframes twinkle {
+  0%,
+  100% {
+    transform: scale(0.4) rotate(0deg);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1) rotate(45deg);
+    opacity: 1;
+  }
+}
+.twinkle {
+  animation: twinkle 2.2s ease-in-out var(--delay, 0s) infinite;
+}
+@keyframes glow {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+.glow {
+  animation: glow var(--d, 2.4s) ease-in-out var(--delay, 0s) infinite;
+}
+@keyframes fill {
+  0% {
+    transform: scaleX(0);
+  }
+  70%,
+  100% {
+    transform: scaleX(1);
+  }
+}
+.fill {
+  transform-origin: left;
+  animation: fill 4s ease-out infinite;
+}
+/* highlight jumps across 4 slots, each --step wide */
+@keyframes hop {
+  0%,
+  20% {
+    transform: translateX(0);
+  }
+  25%,
+  45% {
+    transform: translateX(var(--step));
+  }
+  50%,
+  70% {
+    transform: translateX(calc(var(--step) * 2));
+  }
+  75%,
+  95% {
+    transform: translateX(calc(var(--step) * 3));
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+.hop {
+  animation: hop 6s ease-in-out infinite;
+}
+@keyframes tick {
+  0%,
+  10% {
+    transform: scale(0);
+  }
+  18%,
+  85% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+.tick {
+  animation: tick 5s ease-out var(--delay, 0s) infinite both;
+}
+@keyframes flicker {
+  0%,
+  100% {
+    transform: scale(1) rotate(-2deg);
+  }
+  33% {
+    transform: scale(1.08, 0.94) rotate(2deg);
+  }
+  66% {
+    transform: scale(0.95, 1.06) rotate(-1deg);
+  }
+}
+.flicker {
+  transform-origin: bottom center;
+  animation: flicker 1.2s ease-in-out infinite;
+}
+@keyframes glide {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  40% {
+    transform: translate(var(--gx), var(--gy));
+  }
+  45% {
+    transform: translate(var(--gx), var(--gy)) scale(0.85);
+  }
+  50% {
+    transform: translate(var(--gx), var(--gy)) scale(1);
+  }
+}
+.glide {
+  animation: glide 5s ease-in-out infinite;
+}
+@keyframes rise {
+  0% {
+    transform: translateY(30%) rotate(-8deg);
+  }
+  50% {
+    transform: translateY(-12%) rotate(4deg);
+  }
+  100% {
+    transform: translateY(30%) rotate(-8deg);
+  }
+}
+.rise {
+  animation: rise 5s ease-in-out infinite;
+}
+@keyframes clock {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.hand {
+  transform-origin: bottom center;
+  animation: clock var(--d, 8s) linear infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .marquee-track {
+  .marquee-track,
+  .drift-up,
+  .drift-down,
+  .float,
+  .spin-slow,
+  .spin-rev,
+  .orbit,
+  .orbit-rev,
+  .wiggle,
+  .swing,
+  .twinkle,
+  .glow,
+  .flicker,
+  .glide,
+  .rise,
+  .hand,
+  .hop,
+  .steam,
+  .caret {
+    animation: none;
+  }
+  .pop,
+  .tick,
+  .fill {
+    animation: none;
+  }
+  .orbit,
+  .orbit-rev {
+    transform: rotate(var(--start, 0deg)) translateX(var(--rad)) rotate(calc(-1 * var(--start, 0deg)));
+  }
+  .type-line {
     animation: none;
   }
 }

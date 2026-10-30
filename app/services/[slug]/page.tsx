@@ -4,7 +4,8 @@ import { notFound } from "next/navigation";
 import { projects, services } from "@/lib/content";
 import Reveal from "@/components/ui/Reveal";
 import Button, { Arrow } from "@/components/ui/Button";
-import ProjectVisual from "@/components/ProjectVisual";
+import WorksSlider from "@/components/WorksSlider";
+import ServicesScene from "@/components/illustrations/ServicesScene";
 import Process from "@/components/Process";
 import CTA from "@/components/CTA";
 
@@ -24,14 +25,14 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
   if (index === -1) notFound();
 
   const s = services[index];
-  const projectIndex = projects.findIndex((p) => p.slug === s.project);
-  const project = projectIndex === -1 ? undefined : projects[projectIndex];
+  const project = projects.find((p) => p.slug === s.project);
   const others = services.filter((x) => x.slug !== s.slug);
 
   return (
     <>
       <section className="card pt-32 pb-16 md:pt-44 md:pb-24">
-        <Reveal stagger={0.1} className="container-x">
+        <div className="container-x grid items-center gap-12 lg:grid-cols-[1.25fr_1fr]">
+        <Reveal stagger={0.1}>
           <Link
             href="/services"
             className="mb-10 inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-fg"
@@ -43,21 +44,23 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
             <span className="h-2 w-2 rounded-full bg-fg" />
             Service {String(index + 1).padStart(2, "0")}
           </p>
-          <h1 className="max-w-5xl font-display text-[12vw] font-medium leading-[0.95] tracking-[-0.04em] sm:text-7xl md:text-8xl">
+          <h1 className="max-w-5xl font-display text-[12vw] font-medium leading-[0.95] tracking-[-0.04em] sm:text-7xl md:text-8xl lg:text-7xl xl:text-8xl">
             {s.title}
           </h1>
-          <div className="mt-10 grid gap-8 md:grid-cols-[1.4fr_1fr] md:items-end">
-            <p className="max-w-2xl text-xl leading-relaxed text-muted md:text-2xl">{s.intro}</p>
-            <div className="md:justify-self-end">
-              <Button href="/contact">Start this project</Button>
-            </div>
+          <p className="mt-10 max-w-2xl text-xl leading-relaxed text-muted md:text-2xl">{s.intro}</p>
+          <div className="mt-8">
+            <Button href="/contact/book-project">Start this project</Button>
           </div>
         </Reveal>
+        <div className="mx-auto w-full max-w-[340px] sm:max-w-[420px] lg:max-w-[500px]">
+          <ServicesScene />
+        </div>
+        </div>
       </section>
 
       <section className="card py-20 md:py-28">
         <div className="container-x">
-        <Reveal className="mb-12 grid gap-6 md:mb-16 md:grid-cols-2 md:gap-10">
+        <Reveal className="mb-12 grid gap-6 md:mb-16 lg:grid-cols-2 lg:gap-10">
           <p className="flex items-center gap-3 self-start text-lg md:pt-3">
             <span className="h-2 w-2 rounded-full bg-fg" />
             What you get
@@ -68,8 +71,8 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
         </Reveal>
         <Reveal stagger={0.08} className="grid gap-4 sm:grid-cols-2">
           {s.deliverables.map((d, i) => (
-            <div key={d.title} className="rounded-3xl border border-line bg-surface p-8 md:p-10">
-              <p className="mb-10 font-display text-lg text-muted">{String(i + 1).padStart(2, "0")}</p>
+            <div key={d.title} className="rounded-3xl border border-line bg-surface p-6 sm:p-8 md:p-10">
+              <p className="mb-6 font-display sm:mb-10 text-lg text-muted">{String(i + 1).padStart(2, "0")}</p>
               <h3 className="mb-3 font-display text-2xl font-medium tracking-tight md:text-3xl">{d.title}</h3>
               <p className="leading-relaxed text-muted">{d.text}</p>
             </div>
@@ -91,28 +94,8 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
 
       <Process />
 
-      {project && (
-        <section className="card py-20 md:py-28">
-          <div className="container-x">
-          <Reveal className="group grid gap-10 md:grid-cols-2 md:items-center md:gap-16">
-            <Link href={`/work/${project.slug}`} aria-label={`${project.title} case study`}>
-              <ProjectVisual p={project} index={projectIndex} />
-            </Link>
-            <div>
-              <p className="mb-6 flex items-center gap-3 text-lg">
-                <span className="h-2 w-2 rounded-full bg-fg" />
-                Related work
-              </p>
-              <h2 className="mb-6 font-display text-5xl font-medium tracking-tight md:text-6xl">{project.title}</h2>
-              <p className="mb-10 max-w-lg text-lg leading-relaxed md:text-xl">{project.summary}</p>
-              <Button href={`/work/${project.slug}`} variant="ghost">
-                View case study
-              </Button>
-            </div>
-          </Reveal>
-          </div>
-        </section>
-      )}
+      {/* related project first, then the rest */}
+      <WorksSlider items={project ? [project, ...projects.filter((p) => p !== project)] : projects} />
 
       <section className="card py-20 md:py-28">
         <div className="container-x">

@@ -48,7 +48,7 @@ export default function About({ compact = false }: { compact?: boolean }) {
           {about.label}
         </p>
 
-        <p className="about-statement font-display text-3xl font-medium leading-[1.15] tracking-tight sm:text-4xl md:text-6xl">
+        <p className="about-statement font-display text-3xl font-medium leading-[1.15] tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
           {words.map((w, i) => (
             <span key={i} className="about-word">
               {w}{" "}

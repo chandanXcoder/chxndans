@@ -39,7 +39,7 @@ export default function Services({
             <Link
               key={s.slug}
               href={`/services/${s.slug}`}
-              className="group grid grid-cols-[3rem_1fr] items-start border-b border-line py-7 md:grid-cols-2 md:gap-10 md:py-9"
+              className="group grid grid-cols-[3rem_1fr] items-start border-b border-line py-7 md:grid-cols-[5rem_1fr] md:py-9 lg:grid-cols-2 lg:gap-10"
             >
               <span className="pt-1.5 text-lg md:pt-2 md:text-xl">
                 {String(i + 1).padStart(2, "0")}
@@ -54,9 +54,9 @@ export default function Services({
                   </span>
                 </div>
                 {/* description slides open on hover (always visible on touch screens) */}
-                <div className="grid grid-rows-[1fr] transition-[grid-template-rows] duration-500 ease-out md:grid-rows-[0fr] md:group-hover:grid-rows-[1fr]">
+                <div className="grid grid-rows-[1fr] transition-[grid-template-rows] duration-500 ease-out lg:grid-rows-[0fr] lg:group-hover:grid-rows-[1fr] lg:group-focus-visible:grid-rows-[1fr]">
                   <div className="overflow-hidden">
-                    <p className="max-w-lg pt-3 text-muted md:pt-4 md:pl-3">
+                    <p className="max-w-lg pt-3 text-muted lg:pt-4 lg:pl-3">
                       {s.desc}
                     </p>
                   </div>

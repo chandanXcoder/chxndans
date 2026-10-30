@@ -6,12 +6,13 @@ import Reveal from "./ui/Reveal";
 import { Arrow } from "./ui/Button";
 import ActionForm, { Chips, Label, PersonFields, field } from "./forms/ActionForm";
 import { sendMessage } from "@/app/actions";
+import ContactScene from "./illustrations/ContactScene";
 
 // Messages are saved to the admin inbox (see app/actions.ts).
 export default function Contact() {
   return (
     <section id="contact" className="card py-20 md:py-28">
-      <div className="container-x grid gap-14 md:grid-cols-[1fr_1.2fr] md:gap-20">
+      <div className="container-x grid gap-14 lg:grid-cols-[1fr_1.2fr] lg:gap-20">
         <Reveal>
           <p className="mb-5 flex items-center gap-3 text-lg text-fg">
             <span className="h-2 w-2 rounded-full bg-fg" />
@@ -67,6 +68,9 @@ export default function Contact() {
             <p className="text-sm text-muted">
               Usually replies within 24 hours · {site.location}
             </p>
+          </div>
+          <div className="mt-12 max-w-[320px] sm:max-w-[400px]">
+            <ContactScene />
           </div>
         </Reveal>
 

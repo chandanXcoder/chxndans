@@ -5,6 +5,7 @@ import SmoothScroll from "@/components/SmoothScroll";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SiteOnly from "@/components/SiteOnly";
+import { siteUrl } from "@/lib/site-url";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -19,6 +20,13 @@ export const metadata: Metadata = {
   },
   description:
     "Full-stack web and mobile app developer and freelancer. I build production-ready products with React, Next.js, Node.js and Flutter.",
+  metadataBase: new URL(siteUrl),
+  openGraph: {
+    type: "website",
+    siteName: "Chandan Verma",
+    locale: "en_IN",
+  },
+  twitter: { card: "summary_large_image" },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

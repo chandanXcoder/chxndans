@@ -11,8 +11,8 @@ type Props = {
 export default function SectionHeading({ label, title, aside, layout = "split" }: Props) {
   const split = layout === "split";
   return (
-    <Reveal className={`mb-14 grid gap-6 md:mb-24 ${split ? "md:grid-cols-2 md:gap-10" : ""}`}>
-      <p className="flex items-center gap-3 self-start text-lg text-fg md:pt-3">
+    <Reveal className={`mb-14 grid gap-6 md:mb-24 ${split ? "lg:grid-cols-2 lg:gap-10" : ""}`}>
+      <p className="flex items-center gap-3 self-start text-lg text-fg lg:pt-3">
         <span className="h-2 w-2 rounded-full bg-fg" />
         {label}
       </p>

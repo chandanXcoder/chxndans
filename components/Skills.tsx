@@ -23,7 +23,7 @@ export default function Skills({ heading = true }: { heading?: boolean }) {
           {skills.map((s, i) => (
             <div
               key={s.title}
-              className="group grid gap-4 border-t border-line py-8 transition-colors duration-500 hover:bg-surface md:grid-cols-[80px_1fr_1.3fr] md:items-center md:gap-8 md:px-6 md:py-10"
+              className="group grid gap-4 border-t border-line py-8 transition-colors duration-500 hover:bg-surface md:px-6 md:py-10 lg:grid-cols-[80px_1fr_1.3fr] lg:items-center lg:gap-8"
             >
               <span className="font-display text-sm text-muted">0{i + 1}</span>
               <div>
@@ -32,7 +32,7 @@ export default function Skills({ heading = true }: { heading?: boolean }) {
                 </h3>
                 <p className="mt-2 text-muted">{s.blurb}</p>
               </div>
-              <div className="flex flex-wrap gap-2 md:justify-end">
+              <div className="flex flex-wrap gap-2 lg:justify-end">
                 {s.items.map((t) => (
                   <span
                     key={t}

@@ -18,8 +18,8 @@ export default function Footer() {
           <span className="h-2 w-2 rounded-full bg-fg" />
           Contact us
         </p>
-        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1.3fr_1fr]">
-          <div>
+        <div className="grid grid-cols-2 gap-x-6 gap-y-12 md:grid-cols-4 lg:grid-cols-[2fr_1fr_1fr_1.3fr_1fr]">
+          <div className="col-span-2 md:col-span-4 lg:col-span-1">
             <p className="max-w-sm font-display text-2xl leading-snug tracking-tight md:text-3xl">
               Thanks for scrolling this far. Let&apos;s make something people actually use.
             </p>
@@ -41,7 +41,7 @@ export default function Footer() {
             title="Services"
             links={services.slice(0, 5).map((s) => ({ label: s.title, href: `/services/${s.slug}` }))}
           />
-          <FooterCol title="Socials" links={socials} external />
+          <FooterCol title="Socials" links={socials.filter((s) => s.href !== "#")} external />
         </div>
 
         <Link

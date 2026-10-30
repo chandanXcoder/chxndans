@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
+import SkillsScene from "@/components/illustrations/SkillsScene";
 import SubNav from "@/components/SubNav";
 import Skills from "@/components/Skills";
 import CTA from "@/components/CTA";
@@ -13,6 +14,7 @@ export default function SkillsPage() {
   return (
     <>
       <PageHeader
+        art={<SkillsScene />}
         label="Skills & stack"
         title={
           <>

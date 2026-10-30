@@ -3,14 +3,15 @@
 import { useState } from "react";
 import { faqs } from "@/lib/content";
 import SectionHeading from "./ui/SectionHeading";
+import FaqScene from "./illustrations/FaqScene";
 
 export default function FAQ() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
     <section id="faq" className="card py-20 md:py-28">
-      <div className="container-x grid gap-4 md:grid-cols-[1fr_1.4fr] md:gap-20">
-        <div className="md:sticky md:top-28 md:self-start">
+      <div className="container-x grid gap-4 lg:grid-cols-[1fr_1.4fr] lg:gap-20">
+        <div className="lg:sticky lg:top-28 lg:self-start">
         <SectionHeading
           label="FAQ"
           layout="stack"
@@ -22,6 +23,9 @@ export default function FAQ() {
             </>
           }
         />
+          <div className="mb-10 max-w-[300px] sm:max-w-[380px] lg:mb-0">
+            <FaqScene />
+          </div>
         </div>
 
         <div className="border-b border-line">

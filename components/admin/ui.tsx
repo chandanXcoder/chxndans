@@ -160,7 +160,7 @@ export function AdminShell({
                   key={t.key}
                   href={t.href}
                   aria-current={active === t.key ? "page" : undefined}
-                  className={`flex shrink-0 items-center gap-2 rounded-full px-4 py-2 text-[15px] transition-colors ${
+                  className={`flex shrink-0 items-center gap-2 rounded-full px-3 py-2 text-sm transition-colors sm:px-4 sm:text-[15px] ${
                     active === t.key ? "bg-fg text-bg" : "text-fg/70 hover:bg-surface hover:text-fg"
                   }`}
                 >

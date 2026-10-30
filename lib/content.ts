@@ -24,7 +24,7 @@ export const site = {
 
 
 export const hero = {
-  eyebrow: "Full-stack web & mobile developer · Freelancer",
+  eyebrow: "Full-stack web & mobile developer",
   lines: ["I build products", "that actually"],
   accent: "ship.", // highlighted word at the end of the last line
   sub: "From Play Store apps to news platforms and client e-commerce, I turn ideas into live, production-ready software with React, Next.js, Node.js and Flutter.",
@@ -46,7 +46,7 @@ export const about = {
   statement:
     "I'm Chandan Verma, a full-stack web and mobile developer and B.Tech Computer Science student at Invertis University. I design, build and ship production software, with a focus on performance, clean code and real-world impact.",
   paragraphs: [
-    "I've delivered products end to end: Invertis Mess, an Android app live on Google Play for hostel students; Zoera Jewels, a client e-commerce store with PhonePe, Paytm and Ekart integrations; and Today India Times, a bilingual digital news portal.",
+    "I've delivered products end to end: Invertis Mess, an Android app live on Google Play for hostel students; Zoera Jewels, a client e-commerce store with PhonePe, Paytm and Ekart integrations; Today India Times, a bilingual digital news portal; and abhiरुचि, the official platform of Invertis University's Hobby Club.",
     "I work across React, Next.js, TypeScript, Node.js, Flutter, Firebase and Supabase, and I own the full lifecycle: requirements, UI, APIs, databases, deployment and support.",
     "Beyond client work, I'm a core member of the I-Tech Technical Club, where I help run workshops and hackathons, and I co-hosted TEDx Invertis University. I'm open to internships, freelance projects and full-time roles.",
   ],
@@ -70,6 +70,7 @@ export type Project = {
   highlights: string[];
   metrics: { value: string; label: string }[];
   stack: string[];
+  tags: string[]; // kind of work, shown on the works slider
   link?: { label: string; href: string };
   image?: string; // screenshot in /public/projects
   site?: string; // address shown in the screenshot's browser bar
@@ -100,6 +101,7 @@ export const projects: Project[] = [
       { value: "Live", label: "breaking ticker" },
     ],
     stack: ["Next.js", "React", "Tailwind CSS", "Node.js", "Vercel"], // TODO: confirm stack
+    tags: ["Web Design", "Web App", "News"],
     link: { label: "Visit site", href: "https://todayindiatimes.vercel.app" },
     image: "/projects/today-india-times.webp",
     site: "todayindiatimes.vercel.app",
@@ -128,6 +130,7 @@ export const projects: Project[] = [
       { value: "Free", label: "for every student" },
     ],
     stack: ["Flutter", "Dart", "Firebase", "Next.js", "Android Studio"],
+    tags: ["Mobile App", "UX/UI", "Play Store"],
     link: {
       label: "Get it on Play Store",
       href: "https://play.google.com/store/apps/details?id=com.invertismess.chandan",
@@ -156,13 +159,44 @@ export const projects: Project[] = [
     metrics: [
       { value: "2", label: "payment gateways" },
       { value: "Ekart", label: "logistics API" },
-      { value: "Full-stack", label: "client delivery" },
+      { value: "Live", label: "zoerajewels.in" },
     ],
     stack: ["Next.js", "Node.js", "MongoDB", "PhonePe", "Paytm", "Ekart API"],
+    tags: ["E-commerce", "Web Design", "Payments"],
     link: { label: "Visit store", href: "https://zoerajewels.in" },
     image: "/projects/zoera-jewels.webp",
     site: "zoerajewels.in",
     accent: "from-yellow-200 via-amber-400 to-yellow-700",
+  },
+  {
+    slug: "abhiruchi",
+    title: "abhiरुचि",
+    category: "Student Community, Invertis University",
+    year: "2026",
+    summary:
+      "The official website of abhiरुचि – The Hobby Club, the student organisation behind seven clubs and the biggest events at Invertis University.",
+    role: "Full-stack development",
+    challenge:
+      "Seven clubs, hundreds of events and thousands of students had no single home. Club details, event updates and team information were scattered across posters and group chats.",
+    outcome:
+      "One live platform where students explore every club, follow upcoming and past events, meet the teams and sign in, while the core team manages content from an admin panel.",
+    highlights: [
+      "Pages for all 7 clubs: I-Tech, M-Factor, Panache, Rock On, Stride, Images and The Responsible Invertian",
+      "Events with upcoming, past and timeline views, plus event proposal submission",
+      "Teams directory filtered by club and position, and a photo gallery",
+      "Email and Google sign-in with Firebase Auth, content stored in Firestore and images on Cloudinary",
+    ],
+    metrics: [
+      { value: "7", label: "clubs on one platform" },
+      { value: "15k+", label: "students reached" },
+      { value: "Live", label: "abhruchi.vercel.app" },
+    ],
+    stack: ["Next.js", "React", "Firebase Auth", "Firestore", "Cloudinary", "Framer Motion", "Vercel"],
+    tags: ["Web App", "Community", "Firebase"],
+    link: { label: "Visit website", href: "https://abhruchi.vercel.app" },
+    image: "/projects/abhiruchi.webp",
+    site: "abhruchi.vercel.app",
+    accent: "from-rose-200 via-red-500 to-orange-600",
   },
 ];
 
@@ -298,7 +332,7 @@ export const services: Service[] = [
       { title: "Scalable architecture", text: "Code organised so new features are quick to add." },
     ],
     stack: ["Next.js", "React", "Node.js", "Supabase", "Firebase", "MongoDB"],
-    project: "today-india-times",
+    project: "abhiruchi",
   },
   {
     slug: "mobile-app-development",

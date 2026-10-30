@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
+import ExperienceScene from "@/components/illustrations/ExperienceScene";
 import SubNav from "@/components/SubNav";
 import Experience from "@/components/Experience";
 import CTA from "@/components/CTA";
@@ -13,6 +14,7 @@ export default function ExperiencePage() {
   return (
     <>
       <PageHeader
+        art={<ExperienceScene />}
         label="Experience & leadership"
         title={
           <>

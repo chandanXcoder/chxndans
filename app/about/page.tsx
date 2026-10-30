@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
+import AboutScene from "@/components/illustrations/AboutScene";
 import SubNav from "@/components/SubNav";
 import About from "@/components/About";
 import StatsMarquee from "@/components/StatsMarquee";
 import CTA from "@/components/CTA";
+import WorksSlider from "@/components/WorksSlider";
 
 export const metadata: Metadata = {
   title: "About",
@@ -14,6 +16,7 @@ export default function AboutPage() {
   return (
     <>
       <PageHeader
+        art={<AboutScene />}
         label="About me"
         title={
           <>
@@ -27,6 +30,7 @@ export default function AboutPage() {
       </PageHeader>
       <StatsMarquee />
       <About />
+      <WorksSlider />
       <CTA />
     </>
   );

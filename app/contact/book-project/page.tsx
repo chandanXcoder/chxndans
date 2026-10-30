@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import BookingSection from "@/components/BookingSection";
+import BookProjectScene from "@/components/illustrations/BookProjectScene";
 import BookProjectForm from "@/components/forms/BookProjectForm";
 
 export const metadata: Metadata = {
@@ -19,6 +20,7 @@ export default function BookProjectPage() {
         </>
       }
       sub="Tell me what you need. I'll review it and reply within 24 hours with questions, a plan and a quote."
+      art={<BookProjectScene />}
       points={["Clear quote before any work starts", "Weekly progress updates", "Support after launch"]}
     >
       <BookProjectForm />

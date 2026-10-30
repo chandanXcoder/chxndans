@@ -10,31 +10,31 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
   const href = `/work/${p.slug}`;
   return (
     <Reveal>
-      <article className="group grid gap-10 md:grid-cols-2 md:gap-16 lg:gap-24">
+      <article className="group grid gap-10 lg:grid-cols-2 lg:gap-20 xl:gap-24">
         <Link
           href={href}
-          className={`block ${index % 2 ? "" : "md:order-2"}`}
+          className={`block ${index % 2 ? "" : "lg:order-2"}`}
           aria-label={`${p.title} case study`}
         >
-          <ProjectVisual p={p} index={index} className="aspect-[4/3]" />
+          <ProjectVisual p={p} index={index} className="aspect-[4/3] md:aspect-[16/10] lg:aspect-[4/3]" />
         </Link>
 
-        <div className="flex flex-col md:py-2">
+        <div className="flex flex-col lg:py-2">
           <p className="mb-6 flex items-center gap-3 text-lg">
             <span className="h-2 w-2 rounded-full bg-fg" />
             {p.category}
           </p>
-          <h3 className="mb-6 font-display text-5xl font-medium tracking-tight md:text-6xl">
+          <h3 className="mb-6 font-display text-[2.6rem] leading-[1.05] font-medium tracking-tight sm:text-5xl md:text-6xl">
             <Link href={href}>{p.title}</Link>
           </h3>
           <p className="max-w-xl text-lg leading-relaxed md:text-xl">
             {p.summary}
           </p>
 
-          <div className="mt-10 grid grid-cols-3 gap-4 md:mt-12 md:flex md:flex-wrap md:gap-x-12 md:gap-y-8">
+          <div className="mt-10 grid grid-cols-3 gap-3 sm:flex sm:flex-wrap sm:gap-x-12 sm:gap-y-6 lg:mt-12 lg:gap-y-8">
             {p.metrics.map((m) => (
-              <div key={m.label} className="md:min-w-[6rem]">
-                <p className="font-display text-[1.7rem] font-medium tracking-tight sm:text-4xl md:text-5xl">
+              <div key={m.label} className="sm:min-w-[6rem]">
+                <p className="font-display text-[clamp(1.4rem,6.5vw,1.9rem)] font-medium whitespace-nowrap tracking-tight sm:text-4xl xl:text-5xl">
                   {m.value}
                 </p>
                 <p className="mt-2 max-w-[9rem] text-[10px] uppercase sm:text-xs md:mt-3 leading-snug tracking-wide text-muted">
@@ -46,7 +46,7 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
 
           <Link
             href={href}
-            className="mt-12 inline-flex w-fit items-center gap-3 text-lg md:mt-auto md:pt-12"
+            className="mt-10 inline-flex w-fit items-center gap-3 text-lg lg:mt-auto lg:pt-12"
           >
             Explore
             <svg
@@ -94,8 +94,8 @@ export default function Projects({
             }
             aside={
               <p className="max-w-xs text-muted">
-                A news platform, a client e-commerce store and a Play Store app,
-                all built and shipped end to end.
+                A news platform, a client e-commerce store, a Play Store app and a
+                university club platform, all built and shipped end to end.
               </p>
             }
           />

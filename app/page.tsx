@@ -5,6 +5,8 @@ import About from "@/components/About";
 import Skills from "@/components/Skills";
 import Services from "@/components/Services";
 import CTA from "@/components/CTA";
+import Expertise from "@/components/Expertise";
+import BehindTheCode from "@/components/BehindTheCode";
 import { projects } from "@/lib/content";
 
 export default function Home() {
@@ -14,7 +16,9 @@ export default function Home() {
       <StatsMarquee />
       <Projects items={projects.slice(0, 3)} showAll />
       <Services />
+      <Expertise />
       <About compact />
+      <BehindTheCode />
       <Skills />
       <CTA />
     </>

@@ -25,7 +25,7 @@ export default function CTA() {
                 className="ml-1 h-9 w-9 rounded-full object-cover object-[50%_20%]"
               />
             </p>
-            <div className="grid gap-8 md:grid-cols-2 md:gap-16">
+            <div className="grid gap-8 lg:grid-cols-2 lg:gap-16">
               <h2 className="font-display text-5xl font-medium leading-[1.05] tracking-tight md:text-6xl">
                 Let&apos;s work
                 <br />
