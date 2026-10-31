@@ -15,11 +15,11 @@ export default function Home() {
       <Hero />
       <StatsMarquee />
       <Projects items={projects.slice(0, 3)} showAll />
-      <Services />
-      <Expertise />
-      <About compact />
       <BehindTheCode />
+      <Services />
+      <About compact />
       <Skills />
+      <Expertise />
       <CTA />
     </>
   );
