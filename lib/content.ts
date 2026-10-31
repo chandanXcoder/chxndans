@@ -308,7 +308,7 @@ export const contact = {
   heading: "Got an idea? Let's build it.",
   sub: "Whether it's a startup MVP, a client store or a crazy hackathon prototype, I'd love to hear about it.",
   projectTypes: ["Website", "Web App", "Mobile App", "E-commerce", "Internship / Job", "Other"],
-  budgets: ["< ₹10k", "₹10k – ₹30k", "₹30k – ₹80k", "₹80k+", "Not sure yet"],
+  budgets: ["₹15k – ₹30k", "₹30k – ₹80k", "₹80k+", "Not sure yet"],
   timelines: ["ASAP", "2–4 weeks", "1–2 months", "Flexible"],
 };
 
