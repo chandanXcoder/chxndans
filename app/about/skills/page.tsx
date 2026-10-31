@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import PageHeader from "@/components/PageHeader";
-import SkillsScene from "@/components/illustrations/SkillsScene";
+import SkillsHeroArt from "@/components/illustrations/SkillsHeroArt";
 import SubNav from "@/components/SubNav";
 import Skills from "@/components/Skills";
+import DevLab from "@/components/DevLab";
+import TechMarquee from "@/components/TechMarquee";
 import CTA from "@/components/CTA";
 
 export const metadata: Metadata = {
@@ -14,7 +16,7 @@ export default function SkillsPage() {
   return (
     <>
       <PageHeader
-        art={<SkillsScene />}
+        art={<SkillsHeroArt />}
         label="Skills & stack"
         title={
           <>
@@ -28,6 +30,8 @@ export default function SkillsPage() {
         <SubNav section="About" />
       </PageHeader>
       <Skills heading={false} />
+      <TechMarquee />
+      <DevLab />
       <CTA />
     </>
   );

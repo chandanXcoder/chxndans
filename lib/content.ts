@@ -4,7 +4,9 @@
 export const site = {
   name: "Chandan",
   fullName: "Chandan Verma",
-  photo: "/chandan.webp",
+  // portrait; avatar is a head-and-shoulders crop of it
+  photo: "/chandan-portrait.webp",
+  avatar: "/chandan-face.webp",
   role: "Full-Stack Web & Mobile Developer",
   email: "chaandanverma@gmail.com",
   phone: "+91 81030 77970",
@@ -34,8 +36,8 @@ export const hero = {
 
 export const stats = [
   { value: "99-day", label: "GitHub commit streak" },
-  { value: "800+", label: "contributions in a year" },
-  { value: "Top 6", label: "Hack Bhoomi (SIH internal)" },
+  { value: "1200+", label: "contributions in a year" },
+  { value: "4th", label: "HackBhoomi 2.0 (SIH internal)" },
   { value: "Live", label: "on Google Play Store" },
   { value: "4+", label: "shipped real-world products" },
   { value: "TEDx", label: "co-host at Invertis University" },
@@ -221,10 +223,24 @@ export const skills = [
     blurb: "From commit to production, every day.",
     items: ["Git", "GitHub", "VS Code", "Android Studio", "Vercel"],
   },
+  {
+    title: "Event Management",
+    blurb: "Stages, crowds and crews, from TEDx to 24-hour hackathons.",
+    items: [
+      "Event Logistics",
+      "Team Leadership",
+      "Stage Hosting",
+      "Sound & AV Operations",
+      "Speaker Coordination",
+      "Public Relations",
+      "Volunteer Management",
+    ],
+  },
 ];
 
 export const experience = [
   {
+    id: "freelance",
     period: "2024 — Now",
     role: "Freelance Full-Stack Developer",
     org: "Independent",
@@ -234,29 +250,32 @@ export const experience = [
     ],
   },
   {
-    period: "2024 — Now",
-    role: "Core Member, Trainer & Event Organizer",
-    org: "I-Tech Technical Club · Abhiruchi, Invertis University",
+    id: "clubs",
+    period: "2025 — 2026",
+    role: "Former Active Member & Event Organizer",
+    org: "I-Tech Technical Club · abhiरुचि – The Hobby Club, Invertis University",
     points: [
-      "Lead hands-on web development workshops for student members.",
-      "Plan and run technical events, workshops and hackathons for the club.",
+      "Planned, proposed and ran technical events, workshops and hackathons for the club.",
+      "Hosted club and campus events, and networked with guests, sponsors and other clubs.",
     ],
   },
   {
+    id: "events",
     period: "Events",
     role: "Co-host & Organizer",
     org: "TEDx Invertis University and campus events",
     points: [
       "Co-hosted TEDx at Invertis University.",
-      "Helped organise Invertia 2026, Invertthon 2.0, LinkedIn Summit and AR/VR workshops.",
+      "Co-hosted Invertia 2026, organised the LinkedIn Creator Summit and placed 4th at Invertthon 2.0.",
     ],
   },
   {
+    id: "github",
     period: "Consistency",
     role: "Open Source & Daily Building",
     org: "GitHub",
     points: [
-      "Peak 99-day commit streak with 800+ contributions.",
+      "Peak 99-day commit streak with 1200+ contributions.",
       "Ship something small, every single day.",
     ],
   },
@@ -409,15 +428,43 @@ export const services: Service[] = [
     stack: ["Raspberry Pi", "ESP32", "Sensors", "Next.js", "Firebase"],
   },
   {
+    slug: "seo-optimization",
+    title: "SEO Optimization",
+    desc: "Technical and on-page SEO that helps your site rank on Google and get found by the right customers.",
+    intro:
+      "A great website only works if people can find it. I optimise your site's structure, content and speed so search engines understand it and rank it higher.",
+    deliverables: [
+      { title: "Technical SEO", text: "Sitemaps, robots.txt, canonical URLs and structured data (schema)." },
+      { title: "On-page SEO", text: "Titles, meta descriptions, headings and keywords tuned for every page." },
+      { title: "Core Web Vitals", text: "Speed and performance fixes that search engines reward." },
+      { title: "Search Console & analytics", text: "Google Search Console and Analytics set up to track growth." },
+    ],
+    stack: ["Next.js", "Google Search Console", "Google Analytics", "Lighthouse", "Schema.org"],
+  },
+  {
+    slug: "domain-integration",
+    title: "Domain Integration",
+    desc: "Custom domain setup, DNS, SSL and professional email, connected correctly to your site or app.",
+    intro:
+      "Your domain is your brand's address online. I connect it to your website or app, configure DNS and SSL, and set up professional email so everything just works.",
+    deliverables: [
+      { title: "Domain setup", text: "Help choosing and buying a domain, then connecting it to your hosting." },
+      { title: "DNS configuration", text: "A, CNAME, MX and TXT records configured without downtime." },
+      { title: "SSL / HTTPS", text: "Secure certificates installed and auto-renewing." },
+      { title: "Business email", text: "Professional email like you@yourbrand.com with proper SPF/DKIM." },
+    ],
+    stack: ["Vercel", "Cloudflare", "GoDaddy", "Hostinger", "Google Workspace"],
+  },
+  {
     slug: "deployment-maintenance",
     title: "Deployment & Maintenance",
-    desc: "Vercel deployments, domains, performance fixes and ongoing support after launch.",
+    desc: "Vercel deployments, performance fixes and ongoing support after launch.",
     intro:
-      "Launch is just the start. I handle hosting, domains and performance, and I stay on hand for fixes and improvements so your product keeps running smoothly.",
+      "Launch is just the start. I handle hosting and performance, and I stay on hand for fixes and improvements so your product keeps running smoothly.",
     deliverables: [
       { title: "Deployment", text: "Hosting on Vercel with CI, previews and environment setup." },
-      { title: "Domains & email", text: "Custom domains, DNS and SSL configured correctly." },
-      { title: "Performance", text: "Speed audits and fixes for faster loads and better SEO." },
+      { title: "Monitoring", text: "Uptime and error tracking so issues are caught early." },
+      { title: "Performance", text: "Speed audits and fixes for faster loads." },
       { title: "Ongoing support", text: "Monthly updates, bug fixes and new features." },
     ],
     stack: ["Vercel", "Git", "GitHub", "Next.js"],
@@ -432,13 +479,264 @@ export const process = [
 ];
 
 export const achievements = [
-  { value: "99", unit: "days", title: "GitHub commit streak", text: "A peak streak of 99 days of daily commits." },
-  { value: "800+", unit: "", title: "Contributions", text: "Over 800 GitHub contributions in a single year." },
-  { value: "Top 6", unit: "", title: "Hack Bhoomi", text: "Placed in the top 6 at the internal Smart India Hackathon evaluation." },
-  { value: "Live", unit: "", title: "Google Play Store", text: "Invertis Mess published and live for university students." },
-  { value: "TEDx", unit: "", title: "Co-host", text: "Co-hosted TEDx Invertis University." },
-  { value: "4+", unit: "events", title: "Major campus events", text: "Helped organise Invertia 2026, Invertthon 2.0, LinkedIn Summit and AR/VR workshops." },
+  { id: "streak", value: "99", unit: "days", title: "GitHub commit streak", text: "A peak streak of 99 days of daily commits." },
+  { id: "contributions", value: "1200+", unit: "", title: "Contributions", text: "Over 1200 GitHub contributions in a single year." },
+  { id: "hackathon", value: "4th", unit: "", title: "HackBhoomi 2.0", text: "Secured 4th place at HackBhoomi 2.0, the internal Smart India Hackathon at Invertis University." },
+  { id: "playstore", value: "Live", unit: "", title: "Google Play Store", text: "Invertis Mess published and live for university students." },
+  { id: "tedx", value: "TEDx", unit: "", title: "Co-host", text: "Co-hosted TEDx Invertis University." },
+  { id: "events", value: "4+", unit: "events", title: "Major campus events", text: "Co-hosted Invertia 2026, organised the LinkedIn Creator Summit and placed 4th at Invertthon 2.0." },
 ];
+
+export type EventItem = {
+  slug: string;
+  title: string;
+  tagline: string;
+  role: string;
+  year: string;
+  summary: string;
+  metrics: { value: string; label: string }[];
+  highlights: string[];
+  contributions: string[];
+  tags: string[];
+  // Drop photos into /public/events/<slug>/ and list them here. Empty shows a placeholder.
+  photos: { src: string; alt: string }[];
+};
+
+export const events: EventItem[] = [
+  {
+    slug: "tedx",
+    title: "TEDx Invertis University",
+    tagline: "Ideas worth spreading, live on campus.",
+    role: "Co-host & Organizer",
+    year: "2025",
+    summary:
+      "Co-hosted the three-day TEDx edition at Invertis University and its run of pre-events, sharing the stage with speakers Bhumi Pednekar, Ashish Vidyarthi and Pratika Rawal.",
+    metrics: [
+      { value: "3 days", label: "Main event" },
+      { value: "3", label: "Celebrity speakers" },
+      { value: "Multiple", label: "Pre-events" },
+    ],
+    highlights: [
+      "Co-hosted the main stage across all three days",
+      "Introduced Bhumi Pednekar, Ashish Vidyarthi and Pratika Rawal",
+      "Hosted multiple pre-events in the build-up to TEDx",
+    ],
+    contributions: [
+      "Scripted and delivered the stage hosting, introducing every speaker and holding the audience between talks.",
+      "Hosted the pre-events that built momentum on campus before the main event.",
+      "Coordinated with sound and lighting operators on mic handovers, walk-on music and slide cues.",
+      "Handled on-the-spot changes to the running order without breaking the flow of the show.",
+    ],
+    tags: ["Public Speaking", "Stage Management", "Speaker Relations", "Team Leadership"],
+    photos: [{ src: "/events/tedx/team.jpg", alt: "TEDx Invertis University co-hosts and crew on stage" }],
+  },
+  {
+    slug: "linkedin-summit",
+    title: "Invertis LinkedIn Creator Summit",
+    tagline: "Creators, careers and a lot of laughs.",
+    role: "Organizer",
+    year: "2026",
+    summary:
+      "Helped organise the Invertis × LinkedIn Creator Summit on personal branding and career growth, with creator panels and stand-up comedians Crazy and Ashish Solanki.",
+    metrics: [
+      { value: "300+", label: "Students" },
+      { value: "2", label: "Stand-up comedians" },
+      { value: "1 day", label: "Summit" },
+    ],
+    highlights: [
+      "Stand-up sets by Crazy and Ashish Solanki",
+      "Creator panels on LinkedIn and personal branding",
+      "Ran registrations and seating on the day",
+    ],
+    contributions: [
+      "Managed guest communication from the first invite to the thank-you note.",
+      "Set up registration and check-in so hundreds of students got seated quickly.",
+      "Planned the promotion across posters, WhatsApp groups and club pages.",
+      "Kept sessions on time and handled the audience Q&A mic.",
+    ],
+    tags: ["Event Logistics", "Public Relations", "Guest Coordination", "Promotion"],
+    photos: [{ src: "/events/linkedin-summit/panel.webp", alt: "Creator panel at the Invertis LinkedIn Creator Summit" }],
+  },
+  {
+    slug: "agriculture-summit",
+    title: "Agriculture Summit",
+    tagline: "Technology meets the field.",
+    role: "Sound & AV Lead",
+    year: "2025",
+    summary:
+      "Owned the sound and AV for the Agriculture Summit, making sure every speaker, panel and presentation was heard and seen clearly.",
+    metrics: [
+      { value: "400+", label: "Attendees" },
+      { value: "Full", label: "Sound & AV ops" },
+      { value: "8+", label: "Panels & talks" },
+    ],
+    highlights: [
+      "Set up and operated the sound system end to end",
+      "Managed mics, projector and presentation switching",
+      "Ran soundchecks before every session",
+    ],
+    contributions: [
+      "Planned the audio layout for the hall: speakers, mixer position and mic count.",
+      "Ran soundchecks with every panel before they went live.",
+      "Operated the mixer and presentation switching for the whole day.",
+      "Troubleshot feedback and dropouts live without stopping sessions.",
+    ],
+    tags: ["Sound Engineering", "AV Operations", "Technical Setup", "Event Logistics"],
+    photos: [{ src: "/events/invertthon-2/team.jpg", alt: "Team at the Agriculture Summit" }],
+  },
+  {
+    slug: "invertia-2026",
+    title: "Invertia 2026",
+    tagline: "The university's flagship fest.",
+    role: "Co-host",
+    year: "2026",
+    summary:
+      "Co-hosted Invertia 2026, the biggest event of Invertis University: two days of competitions and shows headlined by a live Sunidhi Chauhan concert, plus the pre-events leading up to it.",
+    metrics: [
+      { value: "2 days", label: "Main fest" },
+      { value: "Live", label: "Sunidhi Chauhan concert" },
+      { value: "Multiple", label: "Pre-events" },
+    ],
+    highlights: [
+      "Co-hosted the main stage across both days",
+      "On stage for the Sunidhi Chauhan concert night",
+      "Hosted the pre-events and Mr. & Ms. Invertia",
+    ],
+    contributions: [
+      "Co-hosted the main stage, introducing performers, competitions and award ceremonies.",
+      "Hosted the pre-events that built up to the fest across campus.",
+      "Kept the crowd engaged between acts on the concert night.",
+      "Worked with the stage and AV crew on cues and running order.",
+    ],
+    tags: ["Public Speaking", "Stage Management", "Crowd Engagement", "Team Leadership"],
+    photos: [{ src: "/events/invertia-2026/mr-ms-invertia.jpg", alt: "With the Mr. & Ms. Invertia 2026 winners" }],
+  },
+  {
+    slug: "convocation-12",
+    title: "12th Convocation Ceremony",
+    tagline: "From graduation to greatness.",
+    role: "Organizing Team",
+    year: "2025",
+    summary:
+      "Part of the team behind Invertis University's 12th Convocation, where Navjot Singh Sidhu, Sushmita Mishra, Sanjay Mishra and Tapas Das were conferred honorary doctorates.",
+    metrics: [
+      { value: "12th", label: "Convocation" },
+      { value: "4", label: "Honorary doctorates" },
+      { value: "1000s", label: "Graduates & guests" },
+    ],
+    highlights: [
+      "Honorary doctorates for Navjot Singh Sidhu, Sushmita Mishra, Sanjay Mishra and Tapas Das",
+      "Managed guest and graduate flow during the ceremony",
+      "Supported the Sun Downer evening",
+    ],
+    contributions: [
+      "Coordinated the arrival and seating of chief guests and graduates.",
+      "Kept the ceremony on schedule alongside the stage and AV teams.",
+      "Guided families and graduates through the venue on the day.",
+      "Helped run the Sun Downer celebration after the ceremony.",
+    ],
+    tags: ["Event Logistics", "Guest Coordination", "Protocol", "Team Leadership"],
+    photos: [{ src: "/events/convocation-12/team.jpg", alt: "Organizing team at the 12th Convocation Ceremony" }],
+  },
+  {
+    slug: "nirmiti-2026",
+    title: "Nirmiti 2026",
+    tagline: "The Invertis fashion show.",
+    role: "Sound & Lights Operator",
+    year: "2026",
+    summary:
+      "Ran the sound and auditorium lighting for Nirmiti 2026, the annual fashion show by the Department of Fashion Design.",
+    metrics: [
+      { value: "Sound", label: "Mixing & playback" },
+      { value: "Lights", label: "Auditorium rig" },
+      { value: "Live", label: "Runway show" },
+    ],
+    highlights: [
+      "Operated the sound system for the whole show",
+      "Ran the auditorium lights for every runway walk",
+      "Synced music and lighting cues with the designers' collections",
+    ],
+    contributions: [
+      "Set up and soundchecked the audio before the show.",
+      "Played and mixed the runway tracks for each collection.",
+      "Operated the auditorium lighting, changing the look for every walk.",
+      "Worked with the show coordinators on the running order and cues.",
+    ],
+    tags: ["Sound Engineering", "Lighting Operation", "AV Operations", "Live Shows"],
+    photos: [{ src: "/events/nirmiti-2026/fashion-show.webp", alt: "Models on the runway at Nirmiti 2026" }],
+  },
+  {
+    slug: "invertthon-2",
+    title: "Invertthon 2.0",
+    tagline: "The university hackathon.",
+    role: "Participant · 4th Place",
+    year: "2026",
+    summary:
+      "Competed at Invertthon 2.0 and finished 4th with a mine safety rover our team designed and built during the hackathon.",
+    metrics: [
+      { value: "4th", label: "Position" },
+      { value: "1", label: "Working rover" },
+      { value: "Team", label: "Hardware + software" },
+    ],
+    highlights: [
+      "Secured 4th position overall",
+      "Built a mine safety rover from scratch",
+      "Demoed the working prototype to the judges",
+    ],
+    contributions: [
+      "Worked with the team to scope the mine safety problem and design the rover.",
+      "Built and integrated the rover's hardware and control code.",
+      "Tested and debugged the prototype under hackathon time pressure.",
+      "Presented the rover and answered the judges' questions in the final round.",
+    ],
+    tags: ["Hardware Prototyping", "Robotics", "Teamwork", "Problem Solving"],
+    photos: [{ src: "/events/invertthon-2/team.jpg", alt: "Team at the hackathon felicitation ceremony" }],
+  },
+];
+
+export const club = {
+  status: "Former Active Member",
+  period: "2025 — 2026",
+  name: "I-Tech",
+  fullName: "I-Tech, The Technical Club",
+  logo: "/clubs/itech.png",
+  about:
+    "I-Tech is the technical club of Invertis University, where students learn by building: workshops, coding sessions, hackathons and the tech behind campus events.",
+  parent: {
+    name: "abhiरुचि",
+    fullName: "abhiरुचि – The Hobby Club",
+    logo: "/clubs/abhiruchi.png",
+    about:
+      "The university's student organisation behind seven clubs and the biggest events on campus, from TEDx to Invertia.",
+    clubs: ["I-Tech", "M-Factor", "Panache", "Rock On", "Stride", "Images", "The Responsible Invertian"],
+  },
+  metrics: [
+    { value: "7", label: "Clubs under abhiरुचि" },
+    { value: "15k+", label: "Students reached" },
+    { value: "1 yr", label: "Active membership" },
+  ],
+  roles: [
+    {
+      title: "Event Host & Organizer",
+      text: "Planned and ran technical events, workshops and hackathons, hosted them on stage and handled sound and AV for the club's shows.",
+    },
+    {
+      title: "Developer",
+      text: "Designed and built the official abhiरुचि website: club pages, events, teams and an admin panel for the core team.",
+    },
+  ],
+  learned: [
+    { title: "Public Speaking", text: "Speaking confidently in front of hundreds, from club meetings to the main stage." },
+    { title: "Event Hosting", text: "Anchoring live shows, introducing guests and holding the crowd between acts." },
+    { title: "Proposal Making", text: "Writing event proposals and budgets that get approved by faculty and management." },
+    { title: "Networking", text: "Building relationships with guests, speakers, sponsors and members of other clubs." },
+    { title: "Team Leadership", text: "Leading volunteer teams and keeping everyone in sync under real deadlines." },
+    { title: "Event Planning", text: "Turning an idea into a schedule, venue plan, crew list and a show that runs on time." },
+    { title: "Crisis Handling", text: "Fixing problems live, on stage, when nothing can be paused." },
+    { title: "Collaboration", text: "Working across clubs, departments and faculty to make big events happen." },
+  ],
+  project: { label: "See the abhiरुचि website", href: "/work/abhiruchi" },
+};
 
 export type NavLink = {
   label: string;
@@ -464,6 +762,7 @@ export const nav: NavItem[] = [
     children: [
       { label: "Overview", href: "/about", desc: "Who I am and how I work" },
       { label: "Experience", href: "/about/experience", desc: "Freelance work, club leadership and events" },
+      { label: "Clubs & Events", href: "/about/clubs", desc: "I-Tech, abhiरुचि and the events we ran" },
       { label: "Skills", href: "/about/skills", desc: "My stack across web, mobile and backend" },
       { label: "Achievements", href: "/about/achievements", desc: "Streaks, hackathons and milestones" },
     ],

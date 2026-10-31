@@ -29,11 +29,11 @@ function Logo({ onClick }: { onClick?: () => void }) {
     <Link href="/" onClick={onClick} className="flex items-center gap-3" aria-label={`${site.fullName}, home`}>
       <span className="relative">
         <Image
-          src={site.photo}
+          src={site.avatar}
           alt=""
           width={40}
           height={40}
-          className="h-10 w-10 rounded-full object-cover object-[50%_20%]"
+          className="h-10 w-10 rounded-full object-cover"
         />
         <span className="absolute right-0 bottom-0 h-2.5 w-2.5 rounded-full bg-emerald-500 ring-2 ring-bg" />
       </span>

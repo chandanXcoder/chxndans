@@ -49,13 +49,13 @@ export default function AchievementsScene({ className }: { className?: string })
 
       <Layer depth={24} className="top-[16%] left-[2%]" float={{ d: 5.5, delay: 0.9, r: -6 }}>
         <div className="rounded-xl bg-[#0d0e10] px-3 py-2 text-white shadow-[0_16px_30px_-10px_rgba(0,0,0,0.5)]">
-          <span className="block font-display text-sm font-semibold sm:text-2xl">Top 6</span>
-          <span className="block text-[8px] text-white/60 sm:text-[11px]">Hack Bhoomi</span>
+          <span className="block font-display text-sm font-semibold sm:text-2xl">4th</span>
+          <span className="block text-[8px] text-white/60 sm:text-[11px]">HackBhoomi 2.0</span>
         </div>
       </Layer>
       <Layer depth={28} className="right-[4%] bottom-[34%]" float={{ d: 6.5, delay: 1.3, r: 4 }}>
         <div className="rounded-xl bg-violet-500 px-3 py-2 text-white shadow-[0_16px_30px_-10px_rgba(124,58,237,0.6)]">
-          <span className="block font-display text-sm font-semibold sm:text-2xl">800+</span>
+          <span className="block font-display text-sm font-semibold sm:text-2xl">1200+</span>
           <span className="block text-[8px] text-white/70 sm:text-[11px]">contributions</span>
         </div>
       </Layer>

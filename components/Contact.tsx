@@ -27,11 +27,11 @@ export default function Contact() {
 
           <div className="mt-10 flex items-center gap-4">
             <Image
-              src={site.photo}
+              src={site.avatar}
               alt={site.fullName}
               width={64}
               height={64}
-              className="h-16 w-16 rounded-full object-cover object-[50%_20%] ring-4 ring-surface"
+              className="h-16 w-16 rounded-full object-cover ring-4 ring-surface"
             />
             <div>
               <p className="font-display text-lg leading-tight">

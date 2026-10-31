@@ -18,11 +18,11 @@ export default function CTA() {
               <span className="h-2 w-2 rounded-full bg-fg" />
               What is next
               <Image
-                src={site.photo}
+                src={site.avatar}
                 alt={site.fullName}
                 width={36}
                 height={36}
-                className="ml-1 h-9 w-9 rounded-full object-cover object-[50%_20%]"
+                className="ml-1 h-9 w-9 rounded-full object-cover"
               />
             </p>
             <div className="grid gap-8 lg:grid-cols-2 lg:gap-16">

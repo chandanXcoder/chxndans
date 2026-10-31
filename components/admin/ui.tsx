@@ -141,11 +141,11 @@ export function AdminShell({
         <div className="container-x flex flex-wrap items-center justify-between gap-4 py-4">
           <Link href="/admin" className="flex items-center gap-3">
             <Image
-              src={site.photo}
+              src={site.avatar}
               alt=""
               width={40}
               height={40}
-              className="h-10 w-10 rounded-full object-cover object-[50%_20%]"
+              className="h-10 w-10 rounded-full object-cover"
             />
             <span className="leading-tight">
               <span className="block font-display text-[17px] font-semibold tracking-tight">{site.fullName}</span>

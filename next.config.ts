@@ -6,6 +6,9 @@ const nextConfig: NextConfig = {
     agentFeedback: true,
   },
   cacheComponents: true,
+  redirects() {
+    return [{ source: "/about/events", destination: "/about/clubs#events", permanent: true }];
+  },
   partialPrefetching: true,
   turbopack: {
     rules: {

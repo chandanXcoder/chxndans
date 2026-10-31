@@ -11,11 +11,11 @@ export default function LoginPage() {
     <section className="card grid min-h-[100vh] place-items-center px-4 py-24">
       <div className="w-full max-w-sm">
         <Image
-          src={site.photo}
+          src={site.avatar}
           alt=""
           width={64}
           height={64}
-          className="mb-6 h-16 w-16 rounded-full object-cover object-[50%_20%] ring-4 ring-surface"
+          className="mb-6 h-16 w-16 rounded-full object-cover ring-4 ring-surface"
         />
         <p className="mb-2 flex items-center gap-2 text-sm text-muted">
           <span className="h-1.5 w-1.5 rounded-full bg-fg" />

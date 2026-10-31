@@ -18,13 +18,13 @@ const columns: Tile[][] = [
   ],
   [
     { kind: "image", src: "/projects/invertis-mess.webp", alt: "Invertis Mess app", pos: "object-[72%_50%]", h: "h-72" },
-    { kind: "stat", value: "Top 6", label: "Hack Bhoomi (SIH internal)", tone: "bg-[#c3d7ec] text-black", h: "h-40" },
+    { kind: "stat", value: "4th", label: "HackBhoomi 2.0 (SIH internal)", tone: "bg-[#c3d7ec] text-black", h: "h-40" },
     { kind: "chips", items: ["Flutter", "Dart", "Firebase"], h: "h-32" },
     { kind: "image", src: "/projects/today-india-times.webp", alt: "Today India Times headlines", pos: "object-[95%_50%]", h: "h-52" },
   ],
   [
     { kind: "image", src: site.photo, alt: site.fullName, pos: "object-[50%_20%]", h: "h-60" },
-    { kind: "stat", value: "800+", label: "GitHub contributions", tone: "bg-violet-500 text-white", h: "h-40" },
+    { kind: "stat", value: "1200+", label: "GitHub contributions", tone: "bg-violet-500 text-white", h: "h-40" },
     { kind: "image", src: "/projects/invertis-mess.webp", alt: "Invertis Mess website", pos: "object-[20%_50%]", h: "h-56" },
     { kind: "stat", value: "Live", label: "on Google Play", tone: "bg-emerald-400 text-black", h: "h-32" },
   ],

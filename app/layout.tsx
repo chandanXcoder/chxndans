@@ -5,6 +5,7 @@ import SmoothScroll from "@/components/SmoothScroll";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SiteOnly from "@/components/SiteOnly";
+import ScrollProgress from "@/components/ScrollProgress";
 import { siteUrl } from "@/lib/site-url";
 import "./globals.css";
 
@@ -41,6 +42,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Suspense>
           <SmoothScroll />
           <SiteOnly>
+            <ScrollProgress />
             <Navbar />
           </SiteOnly>
         </Suspense>

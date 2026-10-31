@@ -1,6 +1,7 @@
 import Reveal from "./ui/Reveal";
 import Button from "./ui/Button";
 import DevIllustration from "./DevIllustration";
+import GitHubPulse from "./GitHubPulse";
 
 const points = [
   { icon: "⌨️", title: "Clean, typed code", text: "TypeScript and Dart, written to be read and extended." },
@@ -45,6 +46,11 @@ export default function BehindTheCode() {
           </div>
         </Reveal>
         <DevIllustration />
+      </div>
+      <div className="container-x mt-16 md:mt-20">
+        <Reveal>
+          <GitHubPulse />
+        </Reveal>
       </div>
     </section>
   );

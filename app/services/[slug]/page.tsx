@@ -8,6 +8,7 @@ import WorksSlider from "@/components/WorksSlider";
 import ServicesScene from "@/components/illustrations/ServicesScene";
 import Process from "@/components/Process";
 import CTA from "@/components/CTA";
+import ServiceDeliverables from "@/components/ServiceDeliverables";
 
 export function generateStaticParams() {
   return services.map((s) => ({ slug: s.slug }));
@@ -69,15 +70,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
             Everything included, start to finish.
           </h2>
         </Reveal>
-        <Reveal stagger={0.08} className="grid gap-4 sm:grid-cols-2">
-          {s.deliverables.map((d, i) => (
-            <div key={d.title} className="rounded-3xl border border-line bg-surface p-6 sm:p-8 md:p-10">
-              <p className="mb-6 font-display sm:mb-10 text-lg text-muted">{String(i + 1).padStart(2, "0")}</p>
-              <h3 className="mb-3 font-display text-2xl font-medium tracking-tight md:text-3xl">{d.title}</h3>
-              <p className="leading-relaxed text-muted">{d.text}</p>
-            </div>
-          ))}
-        </Reveal>
+        <ServiceDeliverables items={s.deliverables} />
 
         <Reveal className="mt-16 flex flex-col gap-5 border-t border-line pt-10 md:flex-row md:items-center md:justify-between">
           <p className="text-lg">Tech I use</p>

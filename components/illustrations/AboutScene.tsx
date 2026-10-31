@@ -9,7 +9,7 @@ function Contributions() {
   const greens = ["bg-[#9be9a8]", "bg-[#40c463]", "bg-[#30a14e]", "bg-[#216e39]"];
   return (
     <div className={`${card} p-3`}>
-      <p className="mb-2 text-[9px] font-semibold text-muted sm:text-xs">800+ contributions</p>
+      <p className="mb-2 text-[9px] font-semibold text-muted sm:text-xs">1200+ contributions</p>
       <div className="grid grid-cols-10 gap-[3px]">
         {Array.from({ length: 50 }, (_, i) => {
           const row = Math.floor(i / 10);
@@ -54,11 +54,11 @@ export default function AboutScene({ className }: { className?: string }) {
           <div className="h-8 bg-gradient-to-r from-[#4361ee] to-[#7c3aed] sm:h-12" />
           <div className="-mt-6 flex flex-col items-center px-4 pb-4 sm:-mt-9">
             <Image
-              src={site.photo}
+              src={site.avatar}
               alt=""
               width={96}
               height={96}
-              className="h-12 w-12 rounded-full object-cover object-[50%_20%] ring-4 ring-white sm:h-20 sm:w-20"
+              className="h-12 w-12 rounded-full object-cover ring-4 ring-white sm:h-20 sm:w-20"
             />
             <p className="mt-2 font-display text-xs font-semibold sm:text-lg">{site.fullName}</p>
             <p className="text-[8px] text-muted sm:text-xs">B.Tech CSE · Invertis University</p>

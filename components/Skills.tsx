@@ -1,6 +1,30 @@
 import { skills } from "@/lib/content";
 import SectionHeading from "./ui/SectionHeading";
 import Reveal from "./ui/Reveal";
+import TechLogo from "./ui/TechLogo";
+import { techIcons, type TechIcon } from "./illustrations/techIcons";
+
+// Logo shown next to each skill; skills without one (event work) stay text-only.
+const logos: Record<string, TechIcon> = {
+  "React.js": techIcons.react,
+  "Next.js": techIcons.next,
+  JavaScript: techIcons.javascript,
+  TypeScript: techIcons.typescript,
+  "Tailwind CSS": techIcons.tailwind,
+  "Node.js": techIcons.node,
+  "Express.js": techIcons.express,
+  Firebase: techIcons.firebase,
+  Supabase: techIcons.supabase,
+  MongoDB: techIcons.mongodb,
+  Flutter: techIcons.flutter,
+  Dart: techIcons.dart,
+  "Play Store publishing": techIcons.googlePlay,
+  Git: techIcons.git,
+  GitHub: techIcons.github,
+  "VS Code": techIcons.vscode,
+  "Android Studio": techIcons.androidStudio,
+  Vercel: techIcons.vercel,
+};
 
 export default function Skills({ heading = true }: { heading?: boolean }) {
   return (
@@ -33,14 +57,23 @@ export default function Skills({ heading = true }: { heading?: boolean }) {
                 <p className="mt-2 text-muted">{s.blurb}</p>
               </div>
               <div className="flex flex-wrap gap-2 lg:justify-end">
-                {s.items.map((t) => (
-                  <span
-                    key={t}
-                    className="rounded-full border border-line px-4 py-2 text-sm transition-colors duration-300 group-hover:border-fg/30"
-                  >
-                    {t}
-                  </span>
-                ))}
+                {s.items.map((t, j) => {
+                  const logo = logos[t];
+                  return (
+                    <span
+                      key={t}
+                      className={`inline-flex items-center gap-2 rounded-full border border-line bg-bg py-1.5 text-sm transition duration-300 group-hover:border-fg/30 motion-safe:hover:-translate-y-0.5 hover:shadow-[0_10px_24px_-12px_rgba(15,23,42,0.35)] ${logo ? "pr-4 pl-1.5" : "px-4"}`}
+                      style={{ transitionDelay: `${j * 30}ms` }}
+                    >
+                      {logo && (
+                        <span className="grid h-7 w-7 place-items-center rounded-full bg-surface transition-transform duration-500 group-hover:rotate-[360deg]">
+                          <TechLogo icon={logo} className="h-4 w-4" />
+                        </span>
+                      )}
+                      {t}
+                    </span>
+                  );
+                })}
               </div>
             </div>
           ))}

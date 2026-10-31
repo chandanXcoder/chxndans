@@ -45,11 +45,11 @@ export default function BookingSection({
             </ul>
             <div className="mt-10 flex items-center gap-4">
               <Image
-                src={site.photo}
+                src={site.avatar}
                 alt={site.fullName}
                 width={56}
                 height={56}
-                className="h-14 w-14 rounded-full object-cover object-[50%_20%] ring-4 ring-surface"
+                className="h-14 w-14 rounded-full object-cover ring-4 ring-surface"
               />
               <div>
                 <p className="font-display text-lg leading-tight">{site.fullName}</p>

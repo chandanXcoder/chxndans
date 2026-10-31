@@ -6,6 +6,7 @@ const pages = [
   "",
   "/about",
   "/about/experience",
+  "/about/clubs",
   "/about/skills",
   "/about/achievements",
   "/work",
