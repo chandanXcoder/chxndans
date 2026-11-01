@@ -2,6 +2,8 @@
 
 import { CALL_TIMES, callDates, newRecord, slotKey, update, type Booking } from "@/lib/store";
 import { contact, services } from "@/lib/content";
+import { notify } from "@/lib/notify";
+import { after } from "next/server";
 
 export type FormState = { ok: boolean; error?: string } | null;
 
@@ -24,16 +26,19 @@ export async function sendMessage(_: FormState, d: FormData): Promise<FormState>
   const message = text(d, "message", 5000);
   if (!message) return { ok: false, error: "Please write a short message." };
 
+  const type = pick(text(d, "type"), contact.projectTypes);
+  const budget = pick(text(d, "budget"), contact.budgets);
   await update("messages", (items) => {
-    items.push({
-      ...newRecord(),
-      status: "new",
-      ...p,
-      type: pick(text(d, "type"), contact.projectTypes),
-      budget: pick(text(d, "budget"), contact.budgets),
-      message,
-    });
+    items.push({ ...newRecord(), status: "new", ...p, type, budget, message });
   });
+  after(() =>
+    notify({
+      subject: `New message from ${p.name}`,
+      fields: [["Name", p.name], ["Email", p.email], ["Phone", p.phone], ["Type", type], ["Budget", budget], ["Message", message]],
+      replyTo: p.email,
+      adminPath: "/admin/messages",
+    }),
+  );
   return { ok: true };
 }
 
@@ -47,6 +52,7 @@ export async function bookCall(_: FormState, d: FormData): Promise<FormState> {
     return { ok: false, error: "Please pick a date and time slot." };
   }
 
+  const topic = text(d, "topic", 2000);
   const booked = await update("bookings", (items) => {
     const clash = items.some(
       (b) =>
@@ -55,9 +61,19 @@ export async function bookCall(_: FormState, d: FormData): Promise<FormState> {
         slotKey(b.date, b.time) === slotKey(date, time),
     );
     if (clash) return false;
-    items.push({ ...newRecord(), status: "pending", kind: "call", ...p, date, time, topic: text(d, "topic", 2000) });
+    items.push({ ...newRecord(), status: "pending", kind: "call", ...p, date, time, topic });
     return true;
   });
+  if (booked) {
+    after(() =>
+      notify({
+        subject: `Call booked: ${date} ${time} IST - ${p.name}`,
+        fields: [["Name", p.name], ["Email", p.email], ["Phone", p.phone], ["When", `${date} ${time} IST`], ["Topic", topic]],
+        replyTo: p.email,
+        adminPath: "/admin/bookings",
+      }),
+    );
+  }
   return booked ? { ok: true } : { ok: false, error: "That slot was just booked. Please pick another one." };
 }
 
@@ -81,6 +97,22 @@ export async function bookProject(_: FormState, d: FormData): Promise<FormState>
   await update("bookings", (items) => {
     items.push(booking);
   });
+  after(() =>
+    notify({
+      subject: `Project request: ${booking.service} - ${p.name}`,
+      fields: [
+        ["Name", p.name],
+        ["Email", p.email],
+        ["Phone", p.phone],
+        ["Service", booking.service],
+        ["Budget", booking.budget],
+        ["Timeline", booking.timeline],
+        ["Details", details],
+      ],
+      replyTo: p.email,
+      adminPath: "/admin/bookings",
+    }),
+  );
   return { ok: true };
 }
 
