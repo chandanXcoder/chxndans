@@ -470,6 +470,76 @@ main {
   animation: term-spin 0.8s steps(1) infinite;
 }
 
+/* ---------- admin panel ---------- */
+
+/* staggered entrance: set --i on each item */
+@keyframes admin-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+  }
+}
+.admin-in {
+  animation: admin-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--i, 0) * 70ms) both;
+}
+
+/* chart bars grow up from the baseline */
+@keyframes grow-y {
+  from {
+    transform: scaleY(0);
+  }
+}
+.grow-y {
+  transform-origin: bottom;
+  animation: grow-y 0.9s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--i, 0) * 45ms + 0.2s) both;
+}
+/* stacked bar segments grow left to right */
+@keyframes grow-x {
+  from {
+    transform: scaleX(0);
+  }
+}
+.grow-x {
+  transform-origin: left;
+  animation: grow-x 1s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--i, 0) * 120ms + 0.3s) both;
+}
+
+/* live dot for unread / pending items */
+@keyframes live-ping {
+  75%,
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+.live-ping {
+  animation: live-ping 1.6s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* skeleton shimmer */
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+.shimmer {
+  background: linear-gradient(90deg, var(--surface) 25%, var(--surface-2) 50%, var(--surface) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .admin-in,
+  .grow-y,
+  .grow-x,
+  .live-ping,
+  .shimmer,
+  .draw,
+  .fade-in {
+    animation: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .term-spinner::after,
   .marquee-track,
