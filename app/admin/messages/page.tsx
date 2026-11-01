@@ -4,6 +4,7 @@ import { loadAdminData } from "@/lib/admin";
 import type { MessageStatus } from "@/lib/store";
 import { deleteMessage, setMessageStatus } from "../actions";
 import ConfirmButton from "@/components/admin/ConfirmButton";
+import { Avatar, FxCard } from "@/components/admin/graphics";
 import {
   ActionButton,
   AdminLoading,
@@ -13,6 +14,8 @@ import {
   FilterTabs,
   StatusBadge,
   formatDate,
+  statusColor,
+  timeAgo,
 } from "@/components/admin/ui";
 
 export const metadata: Metadata = { title: "Messages" };
@@ -39,7 +42,12 @@ async function Messages({ searchParams }: Pick<PageProps<"/admin/messages">, "se
   const shown = messages.filter((m) => (status ? m.status === status : m.status !== "archived"));
 
   return (
-    <AdminShell active="messages" badges={badges} title="Messages">
+    <AdminShell
+      active="messages"
+      badges={badges}
+      title="Messages"
+      sub="Everything sent through the contact form. Reply, mark as read or archive."
+    >
       <FilterTabs
         items={filters.map((f) => ({
           label: f.label,
@@ -52,36 +60,36 @@ async function Messages({ searchParams }: Pick<PageProps<"/admin/messages">, "se
       <div className="mt-8 space-y-4">
         {shown.length === 0 && <Empty>No messages here.</Empty>}
         {shown.map((m) => (
-          <article
-            key={m.id}
-            className={`rounded-3xl border p-6 md:p-8 ${m.status === "new" ? "border-blue-200 bg-blue-50/40" : "border-line"}`}
-          >
+          <FxCard key={m.id} accent={statusColor[m.status]} innerClassName="p-6 md:p-8">
             <div className="flex flex-wrap items-start justify-between gap-4">
-              <div>
-                <h2 className="font-display text-2xl font-medium tracking-tight">{m.name}</h2>
-                <p className="mt-1 text-sm text-muted">
-                  <a href={`mailto:${m.email}`} className="hover:text-fg">
-                    {m.email}
-                  </a>
-                  {m.phone && (
-                    <>
-                      {" · "}
-                      <a href={`tel:${m.phone}`} className="hover:text-fg">
-                        {m.phone}
-                      </a>
-                    </>
-                  )}
-                </p>
+              <div className="flex items-center gap-4">
+                <Avatar name={m.name} size="h-14 w-14 text-lg" />
+                <div>
+                  <h2 className="font-display text-2xl font-medium tracking-tight">{m.name}</h2>
+                  <p className="mt-1 text-sm text-muted">
+                    <a href={`mailto:${m.email}`} className="hover:text-fg">
+                      {m.email}
+                    </a>
+                    {m.phone && (
+                      <>
+                        {" · "}
+                        <a href={`tel:${m.phone}`} className="hover:text-fg">
+                          {m.phone}
+                        </a>
+                      </>
+                    )}
+                  </p>
+                </div>
               </div>
               <div className="flex items-center gap-3 text-sm text-muted">
-                {formatDate(m.createdAt)}
+                <span title={formatDate(m.createdAt)}>{timeAgo(m.createdAt)}</span>
                 <StatusBadge status={m.status} />
               </div>
             </div>
 
             <div className="mt-5 flex flex-wrap gap-2 text-sm">
-              <span className="rounded-full bg-surface px-3 py-1">{m.type}</span>
-              <span className="rounded-full bg-surface px-3 py-1">Budget: {m.budget}</span>
+              <span className="rounded-full bg-bg px-3 py-1 ring-1 ring-line">{m.type}</span>
+              <span className="rounded-full bg-bg px-3 py-1 ring-1 ring-line">Budget: {m.budget}</span>
             </div>
             <p className="mt-5 whitespace-pre-line leading-relaxed">{m.message}</p>
 
@@ -103,7 +111,7 @@ async function Messages({ searchParams }: Pick<PageProps<"/admin/messages">, "se
                 <ConfirmButton message={`Delete the message from ${m.name}?`}>Delete</ConfirmButton>
               </form>
             </div>
-          </article>
+          </FxCard>
         ))}
       </div>
     </AdminShell>

@@ -3,7 +3,7 @@ import Layer from "./Layer";
 import PaperPlane from "./PaperPlane";
 import { Badge, Blob, Bubble, Phone, Sparkle, card, noodles, vars } from "./parts";
 
-function Envelope() {
+export function Envelope() {
   return (
     <svg viewBox="0 0 160 110" className="w-full drop-shadow-[0_22px_30px_rgba(67,97,238,0.28)]" aria-hidden>
       <defs>

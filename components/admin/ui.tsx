@@ -3,6 +3,19 @@ import Link from "next/link";
 import { logout } from "@/app/admin/actions";
 import { site } from "@/lib/content";
 import type { BookingStatus, MessageStatus } from "@/lib/store";
+import { LiveDot } from "./graphics";
+import AdminMotion from "./AdminMotion";
+import { Arrow } from "@/components/ui/Button";
+
+// "5m ago", "3h ago", "2d ago", then a plain date.
+export function timeAgo(iso: string) {
+  const s = (Date.now() - Date.parse(iso)) / 1000;
+  if (s < 60) return "just now";
+  if (s < 3600) return `${Math.floor(s / 60)}m ago`;
+  if (s < 86_400) return `${Math.floor(s / 3600)}h ago`;
+  if (s < 7 * 86_400) return `${Math.floor(s / 86_400)}d ago`;
+  return new Date(iso).toLocaleDateString("en-IN", { day: "numeric", month: "short", timeZone: "Asia/Kolkata" });
+}
 
 export const formatDate = (iso: string) =>
   new Date(iso).toLocaleString("en-IN", {
@@ -31,19 +44,28 @@ export const whatsappLink = (phone: string) => {
   return `https://wa.me/${digits.length === 10 ? `91${digits}` : digits}`;
 };
 
-const tones: Record<MessageStatus | BookingStatus, string> = {
-  new: "bg-blue-100 text-blue-700",
-  read: "bg-surface-2 text-muted",
-  archived: "bg-surface-2 text-muted",
-  pending: "bg-amber-100 text-amber-800",
-  confirmed: "bg-emerald-100 text-emerald-700",
-  done: "bg-surface-2 text-fg",
-  cancelled: "bg-red-100 text-red-700",
+// Accent per status, in the site palette.
+export const statusColor: Record<MessageStatus | BookingStatus, string> = {
+  new: "#4361ee",
+  read: "#868e96",
+  archived: "#adb5bd",
+  pending: "#f59f00",
+  confirmed: "#2f9e44",
+  done: "#0d0e10",
+  cancelled: "#e62b1e",
 };
 
 export function StatusBadge({ status }: { status: MessageStatus | BookingStatus }) {
+  const c = statusColor[status];
+  const live = status === "new" || status === "pending";
   return (
-    <span className={`rounded-full px-3 py-1 text-xs font-medium capitalize ${tones[status]}`}>{status}</span>
+    <span
+      className="inline-flex items-center gap-1.5 rounded-full bg-bg px-3 py-1 text-xs font-medium capitalize ring-1 ring-line"
+      style={{ color: c }}
+    >
+      {live ? <LiveDot className="bg-current" /> : <span className="h-1.5 w-1.5 rounded-full bg-current" />}
+      <span className="text-fg">{status}</span>
+    </span>
   );
 }
 
@@ -61,8 +83,8 @@ export function ActionButton({
     <form action={action}>
       <button
         type="submit"
-        className={`rounded-full px-4 py-2 text-sm transition-colors ${
-          primary ? "bg-fg text-bg hover:bg-fg/85" : "bg-surface hover:bg-surface-2"
+        className={`rounded-full px-4 py-2 text-sm transition-[background-color,transform] active:scale-95 ${
+          primary ? "bg-fg text-bg hover:bg-fg/85" : "bg-bg ring-1 ring-line hover:ring-fg"
         }`}
       >
         {children}
@@ -76,7 +98,7 @@ export function ContactLinks({ email, phone, subject }: { email: string; phone?:
     <>
       <a
         href={`mailto:${email}?subject=${encodeURIComponent(subject)}`}
-        className="rounded-full border border-line px-4 py-2 text-sm transition-colors hover:border-fg"
+        className="rounded-full border border-line bg-bg px-4 py-2 text-sm transition-[border-color,transform] hover:border-fg active:scale-95"
       >
         Reply by email
       </a>
@@ -85,7 +107,7 @@ export function ContactLinks({ email, phone, subject }: { email: string; phone?:
           href={whatsappLink(phone)}
           target="_blank"
           rel="noopener noreferrer"
-          className="rounded-full bg-emerald-500 px-4 py-2 text-sm text-white transition-colors hover:bg-emerald-600"
+          className="rounded-full bg-emerald-500 px-4 py-2 text-sm text-white transition-[background-color,transform] hover:bg-emerald-600 active:scale-95"
         >
           WhatsApp
         </a>
@@ -97,11 +119,12 @@ export function ContactLinks({ email, phone, subject }: { email: string; phone?:
 export function FilterTabs({ items }: { items: { label: string; href: string; active: boolean; count?: number }[] }) {
   return (
     <div className="flex flex-wrap gap-2">
-      {items.map((t) => (
+      {items.map((t, i) => (
         <Link
           key={t.href}
           href={t.href}
-          className={`rounded-full px-4 py-2 text-sm transition-colors ${
+          style={{ "--i": i } as React.CSSProperties}
+          className={`admin-in rounded-full px-4 py-2 text-sm transition-[background-color,color,transform] active:scale-95 ${
             t.active ? "bg-fg text-bg" : "bg-surface text-fg/80 hover:bg-surface-2"
           }`}
         >
@@ -114,7 +137,25 @@ export function FilterTabs({ items }: { items: { label: string; href: string; ac
 }
 
 export function Empty({ children }: { children: React.ReactNode }) {
-  return <p className="rounded-3xl bg-surface p-10 text-center text-muted">{children}</p>;
+  return (
+    <div
+      data-reveal
+      className="flex flex-col items-center gap-4 rounded-[1.75rem] border border-dashed border-line p-10 text-center text-muted"
+    >
+      <svg viewBox="0 0 64 48" className="float w-16" style={{ "--d": "5s" } as React.CSSProperties} aria-hidden>
+        <rect x="2" y="2" width="60" height="44" rx="8" fill="#fff" stroke="#d6dee8" strokeWidth="2" />
+        <path
+          d="M6 8l26 20L58 8"
+          fill="none"
+          stroke="#9fb8d8"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+      <p>{children}</p>
+    </div>
+  );
 }
 
 const tabs = [
@@ -128,16 +169,21 @@ export function AdminShell({
   active,
   badges,
   title,
+  sub,
+  intro,
   children,
 }: {
   active: (typeof tabs)[number]["key"];
   badges: { messages: number; bookings: number };
   title: string;
+  sub?: string;
+  // Replaces the default eyebrow + heading (used by the dashboard hero).
+  intro?: React.ReactNode;
   children: React.ReactNode;
 }) {
   return (
     <>
-      <header className="card">
+      <header className="card admin-in">
         <div className="container-x flex flex-wrap items-center justify-between gap-4 py-4">
           <Link href="/admin" className="flex items-center gap-3">
             <Image
@@ -145,7 +191,7 @@ export function AdminShell({
               alt=""
               width={40}
               height={40}
-              className="h-10 w-10 rounded-full object-cover"
+              className="h-10 w-10 rounded-full object-cover ring-2 ring-surface"
             />
             <span className="leading-tight">
               <span className="block font-display text-[17px] font-semibold tracking-tight">{site.fullName}</span>
@@ -166,7 +212,7 @@ export function AdminShell({
                 >
                   {t.label}
                   {count > 0 && (
-                    <span className="grid h-5 min-w-5 place-items-center rounded-full bg-blue-500 px-1.5 text-[11px] text-white">
+                    <span className="grid h-5 min-w-5 place-items-center rounded-full bg-[#4361ee] px-1.5 text-[11px] text-white">
                       {count}
                     </span>
                   )}
@@ -175,22 +221,38 @@ export function AdminShell({
             })}
           </nav>
           <div className="flex items-center gap-2">
-            <Link href="/" className="rounded-full px-4 py-2 text-sm text-muted transition-colors hover:text-fg">
-              View site ↗
+            <Link
+              href="/"
+              className="group inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm text-muted transition-colors hover:text-fg"
+            >
+              View site
+              <Arrow className="transition-transform duration-300 group-hover:rotate-45" />
             </Link>
             <form action={logout}>
-              <button type="submit" className="rounded-full bg-surface px-4 py-2 text-sm transition-colors hover:bg-surface-2">
+              <button
+                type="submit"
+                className="rounded-full bg-surface px-4 py-2 text-sm transition-colors hover:bg-surface-2"
+              >
                 Log out
               </button>
             </form>
           </div>
         </div>
       </header>
-      <section className="card min-h-[70vh] py-10 md:py-14">
-        <div className="container-x">
-          <h1 className="mb-8 font-display text-4xl font-medium tracking-tight md:text-5xl">{title}</h1>
+      <section className="card min-h-[70vh] py-12 md:py-20">
+        <AdminMotion className="container-x">
+          {intro ?? (
+            <div data-reveal className="mb-10 md:mb-14">
+              <p className="mb-5 flex items-center gap-3 text-lg text-fg">
+                <span className="h-2 w-2 rounded-full bg-fg" />
+                Admin panel
+              </p>
+              <h1 className="font-display text-5xl leading-[1] font-medium tracking-tight md:text-7xl">{title}</h1>
+              {sub && <p className="mt-6 max-w-md text-lg leading-relaxed text-muted">{sub}</p>}
+            </div>
+          )}
           {children}
-        </div>
+        </AdminMotion>
       </section>
     </>
   );
@@ -200,9 +262,15 @@ export function AdminLoading() {
   return (
     <section className="card min-h-[80vh] py-14">
       <div className="container-x space-y-4">
-        <div className="h-12 w-64 animate-pulse rounded-full bg-surface" />
-        <div className="h-40 animate-pulse rounded-3xl bg-surface" />
-        <div className="h-40 animate-pulse rounded-3xl bg-surface" />
+        <div className="shimmer h-5 w-40 rounded-full" />
+        <div className="shimmer h-16 w-80 max-w-full rounded-2xl" />
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {[0, 1, 2, 3].map((i) => (
+            <div key={i} className="shimmer h-36 rounded-3xl" />
+          ))}
+        </div>
+        <div className="shimmer h-40 rounded-3xl" />
+        <div className="shimmer h-40 rounded-3xl" />
       </div>
     </section>
   );

@@ -4,6 +4,7 @@ import { loadAdminData } from "@/lib/admin";
 import type { Booking } from "@/lib/store";
 import { deleteBooking, setBookingStatus } from "../actions";
 import ConfirmButton from "@/components/admin/ConfirmButton";
+import { Avatar, DateTile, FxCard, Icon } from "@/components/admin/graphics";
 import {
   ActionButton,
   AdminLoading,
@@ -14,6 +15,8 @@ import {
   StatusBadge,
   formatDate,
   formatSlot,
+  statusColor,
+  timeAgo,
 } from "@/components/admin/ui";
 
 export const metadata: Metadata = { title: "Bookings" };
@@ -42,7 +45,12 @@ async function Bookings({ searchParams }: Pick<PageProps<"/admin/bookings">, "se
   };
 
   return (
-    <AdminShell active="bookings" badges={badges} title="Bookings">
+    <AdminShell
+      active="bookings"
+      badges={badges}
+      title="Bookings"
+      sub="Discovery calls and project requests. Confirm, mark done or cancel."
+    >
       <FilterTabs
         items={[
           tab("All"),
@@ -67,32 +75,36 @@ async function Bookings({ searchParams }: Pick<PageProps<"/admin/bookings">, "se
 
 function BookingCard({ b }: { b: Booking }) {
   return (
-    <article
-      className={`rounded-3xl border p-6 md:p-8 ${b.status === "pending" ? "border-amber-200 bg-amber-50/40" : "border-line"}`}
-    >
+    <FxCard accent={statusColor[b.status]} innerClassName="p-6 md:p-8">
       <div className="flex flex-wrap items-start justify-between gap-4">
-        <div>
-          <p className="mb-2 text-sm text-muted">{b.kind === "call" ? "📞 Call booking" : "💼 Project booking"}</p>
-          <h2 className="font-display text-2xl font-medium tracking-tight">
-            {b.kind === "call" ? formatSlot(b.date, b.time) : b.service}
-          </h2>
-          <p className="mt-1 text-sm text-muted">
-            {b.name} ·{" "}
-            <a href={`mailto:${b.email}`} className="hover:text-fg">
-              {b.email}
-            </a>
-            {b.phone && (
-              <>
-                {" · "}
-                <a href={`tel:${b.phone}`} className="hover:text-fg">
-                  {b.phone}
-                </a>
-              </>
-            )}
-          </p>
+        <div className="flex items-center gap-4">
+          {b.kind === "call" ? <DateTile date={b.date} /> : <Avatar name={b.name} size="h-12 w-12 text-base" />}
+          <div>
+            <p className="mb-1 flex items-center gap-1.5 text-sm text-muted">
+              <Icon name={b.kind === "call" ? "phone" : "briefcase"} className="h-4 w-4" />
+              {b.kind === "call" ? "Call booking" : "Project booking"}
+            </p>
+            <h2 className="font-display text-2xl font-medium tracking-tight">
+              {b.kind === "call" ? formatSlot(b.date, b.time) : b.service}
+            </h2>
+            <p className="mt-1 text-sm text-muted">
+              {b.name} ·{" "}
+              <a href={`mailto:${b.email}`} className="hover:text-fg">
+                {b.email}
+              </a>
+              {b.phone && (
+                <>
+                  {" · "}
+                  <a href={`tel:${b.phone}`} className="hover:text-fg">
+                    {b.phone}
+                  </a>
+                </>
+              )}
+            </p>
+          </div>
         </div>
         <div className="flex items-center gap-3 text-sm text-muted">
-          Booked {formatDate(b.createdAt)}
+          <span title={formatDate(b.createdAt)}>Booked {timeAgo(b.createdAt)}</span>
           <StatusBadge status={b.status} />
         </div>
       </div>
@@ -100,8 +112,8 @@ function BookingCard({ b }: { b: Booking }) {
       {b.kind === "project" ? (
         <>
           <div className="mt-5 flex flex-wrap gap-2 text-sm">
-            <span className="rounded-full bg-surface px-3 py-1">Budget: {b.budget}</span>
-            <span className="rounded-full bg-surface px-3 py-1">Timeline: {b.timeline}</span>
+            <span className="rounded-full bg-bg px-3 py-1 ring-1 ring-line">Budget: {b.budget}</span>
+            <span className="rounded-full bg-bg px-3 py-1 ring-1 ring-line">Timeline: {b.timeline}</span>
           </div>
           <p className="mt-5 whitespace-pre-line leading-relaxed">{b.details}</p>
         </>
@@ -133,6 +145,6 @@ function BookingCard({ b }: { b: Booking }) {
           <ConfirmButton message={`Delete the booking from ${b.name}?`}>Delete</ConfirmButton>
         </form>
       </div>
-    </article>
+    </FxCard>
   );
 }
