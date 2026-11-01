@@ -1,7 +1,24 @@
 # Chandan — portfolio
 
-Next.js portfolio with a built-in backend: the contact, book-a-call and book-a-project forms save to
-`data/*.json`, show up in a password-protected admin panel at `/admin`, and (optionally) email you.
+Personal portfolio of **Chandan Verma**, full-stack web & mobile developer. A Next.js site with a
+built-in backend: the contact, book-a-call and book-a-project forms save to `data/*.json`, show up in a
+password-protected admin panel at `/admin`, and (optionally) send you an email alert.
+
+## Features
+
+- **Portfolio pages:** home, work (with per-project pages), services (with per-service pages), about
+  (experience, skills, achievements, clubs), contact (book a call, book a project, FAQ)
+- **Animations:** GSAP scroll effects, Lenis smooth scrolling, illustrated scenes for each page
+- **Forms backed by server actions:** messages and bookings are written to JSON files; call slots
+  (IST) that are already booked can't be booked again
+- **Admin panel** (`/admin`): dashboard with activity chart and status breakdowns, inbox for messages
+  (new / read / archived), and bookings (pending / confirmed / done / cancelled) with filters
+- **Email alerts** for new messages and bookings via SMTP (optional)
+- **SEO:** sitemap, robots, Open Graph image, real 404s for unknown project/service slugs (`proxy.ts`)
+
+## Tech stack
+
+Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS 4 · GSAP · Lenis · Nodemailer
 
 ## Local development
 
@@ -11,6 +28,13 @@ npm run dev
 ```
 
 Open http://localhost:3000. Admin panel: http://localhost:3000/admin/login
+
+| Command         | What it does               |
+| --------------- | -------------------------- |
+| `npm run dev`   | Start the dev server       |
+| `npm run build` | Production build           |
+| `npm start`     | Serve the production build |
+| `npm run lint`  | Run ESLint                 |
 
 ## Environment (`.env.local`)
 
@@ -32,6 +56,30 @@ NOTIFY_TO=you@gmail.com                # defaults to site.email in lib/content.t
 
 **Gmail App Password:** turn on 2-Step Verification on your Google account, then go to
 https://myaccount.google.com/apppasswords, create one, and paste it (without spaces) as `SMTP_PASS`.
+
+## Editing content
+
+All site copy and data (name, contact details, socials, hero text, stats, projects, services,
+experience, etc.) lives in **`lib/content.ts`**. Items marked `TODO` there are placeholders.
+Images go in `public/` (`public/projects/`, `public/clubs/`, `public/events/<event>/`).
+
+## Project structure
+
+```
+app/                 Routes (App Router)
+  actions.ts         Server actions for the public forms
+  admin/             Admin panel: dashboard, messages, bookings, login, actions
+  about/ contact/ services/ work/
+components/          UI sections, forms, illustrations, admin components
+lib/
+  content.ts         All site copy and data
+  store.ts           JSON file storage, booking slots
+  auth.ts            Admin login cookie
+  notify.ts          Email alerts
+  site-url.ts        Public site URL
+proxy.ts             404s for unknown /work and /services slugs
+data/                messages.json, bookings.json (created at runtime, git-ignored)
+```
 
 ## Deploy on a VPS
 
