@@ -1,13 +1,25 @@
 "use server";
 
 import { CALL_TIMES, callDates, newRecord, slotKey, update, type Booking } from "@/lib/store";
-import { contact, services } from "@/lib/content";
+import { contact, services, site } from "@/lib/content";
 import { notify } from "@/lib/notify";
 import { after } from "next/server";
 
 export type FormState = { ok: boolean; error?: string } | null;
 
 const text = (d: FormData, key: string, max = 200) => String(d.get(key) ?? "").trim().slice(0, max);
+// A storage failure (database down, missing table, read-only disk) becomes a friendly form error
+// instead of crashing the page.
+const SAVE_ERROR = `Sorry, something went wrong on our side. Please try again, or email ${site.email}.`;
+async function save<T>(run: () => Promise<T>): Promise<{ ok: true; value: T } | { ok: false }> {
+  try {
+    return { ok: true, value: await run() };
+  } catch (e) {
+    console.error("[actions] save failed:", e);
+    return { ok: false };
+  }
+}
+
 const isEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 
 // Shared contact fields; the hidden "company" input is a honeypot for bots.
@@ -28,9 +40,12 @@ export async function sendMessage(_: FormState, d: FormData): Promise<FormState>
 
   const type = pick(text(d, "type"), contact.projectTypes);
   const budget = pick(text(d, "budget"), contact.budgets);
-  await update("messages", (items) => {
-    items.push({ ...newRecord(), status: "new", ...p, type, budget, message });
-  });
+  const saved = await save(() =>
+    update("messages", (items) => {
+      items.push({ ...newRecord(), status: "new", ...p, type, budget, message });
+    }),
+  );
+  if (!saved.ok) return { ok: false, error: SAVE_ERROR };
   after(() =>
     notify({
       subject: `New message from ${p.name}`,
@@ -53,17 +68,21 @@ export async function bookCall(_: FormState, d: FormData): Promise<FormState> {
   }
 
   const topic = text(d, "topic", 2000);
-  const booked = await update("bookings", (items) => {
-    const clash = items.some(
-      (b) =>
-        b.kind === "call" &&
-        (b.status === "pending" || b.status === "confirmed") &&
-        slotKey(b.date, b.time) === slotKey(date, time),
-    );
-    if (clash) return false;
-    items.push({ ...newRecord(), status: "pending", kind: "call", ...p, date, time, topic });
-    return true;
-  });
+  const saved = await save(() =>
+    update("bookings", (items) => {
+      const clash = items.some(
+        (b) =>
+          b.kind === "call" &&
+          (b.status === "pending" || b.status === "confirmed") &&
+          slotKey(b.date, b.time) === slotKey(date, time),
+      );
+      if (clash) return false;
+      items.push({ ...newRecord(), status: "pending", kind: "call", ...p, date, time, topic });
+      return true;
+    }),
+  );
+  if (!saved.ok) return { ok: false, error: SAVE_ERROR };
+  const booked = saved.value;
   if (booked) {
     after(() =>
       notify({
@@ -94,9 +113,12 @@ export async function bookProject(_: FormState, d: FormData): Promise<FormState>
     timeline: pick(text(d, "timeline"), contact.timelines),
     details,
   };
-  await update("bookings", (items) => {
-    items.push(booking);
-  });
+  const saved = await save(() =>
+    update("bookings", (items) => {
+      items.push(booking);
+    }),
+  );
+  if (!saved.ok) return { ok: false, error: SAVE_ERROR };
   after(() =>
     notify({
       subject: `Project request: ${booking.service} - ${p.name}`,

@@ -36,5 +36,10 @@ export default function BookCallPage() {
 // Free slots change with every booking, so they're read at request time.
 async function CallSlots() {
   await connection();
-  return <BookCallForm dates={callDates()} times={CALL_TIMES} taken={await takenSlots()} />;
+  // If storage can't be read, still show the form: bookCall re-checks the slot when saving.
+  const taken = await takenSlots().catch((e) => {
+    console.error("[book-call] couldn't load taken slots:", e);
+    return [];
+  });
+  return <BookCallForm dates={callDates()} times={CALL_TIMES} taken={taken} />;
 }

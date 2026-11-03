@@ -73,7 +73,7 @@ app/                 Routes (App Router)
 components/          UI sections, forms, illustrations, admin components
 lib/
   content.ts         All site copy and data
-  store.ts           JSON file storage, booking slots
+  store.ts           Storage (Supabase or JSON files), booking slots
   auth.ts            Admin login cookie
   notify.ts          Email alerts
   site-url.ts        Public site URL
@@ -106,4 +106,19 @@ Messages and bookings live in `data/messages.json` and `data/bookings.json` insi
 0 3 * * * tar czf ~/backups/data-$(date +\%F).tgz -C /path/to/chandan data
 ```
 
-> Serverless hosts like Vercel don't keep written files, so use a VPS (or swap `lib/store.ts` for a database).
+## Deploy on Vercel
+
+Vercel can't write files, so messages and bookings are stored in Supabase there.
+
+1. Create a Supabase project. Open **SQL Editor**, paste `supabase/schema.sql` and click **Run**.
+2. Supabase → **Project Settings → API**: copy the **Project URL** and the **service_role** key.
+   Never use the service_role key in client code or expose it publicly.
+3. Vercel → **Settings → Environment Variables**: add `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY`.
+   Also add everything else from `.env.local` (admin login, `SMTP_*`, `NOTIFY_TO`, `NEXT_PUBLIC_SITE_URL`);
+   `.env.local` itself is never deployed.
+4. Redeploy.
+
+To copy existing local data into Supabase, put the two Supabase vars in `.env.local` and run
+`node --env-file=.env.local scripts/import-data.mjs`.
+
+Without the Supabase vars, `lib/store.ts` falls back to the JSON files in `data/` (local dev and VPS).

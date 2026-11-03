@@ -35,6 +35,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       className={`${outfit.variable} antialiased`}
+      // Browser extensions (e.g. QuillBot) inject attributes on <html> before hydration
+      suppressHydrationWarning
     >
       <body>
         <div id="top" />

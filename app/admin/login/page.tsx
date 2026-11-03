@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { Suspense } from "react";
+import { redirect } from "next/navigation";
 import { site } from "@/lib/content";
-import { adminConfigured } from "@/lib/auth";
+import { adminConfigured, isAdmin } from "@/lib/auth";
 import LoginForm from "@/components/admin/LoginForm";
 import AdminMotion from "@/components/admin/AdminMotion";
 import AdminScene from "@/components/admin/AdminScene";
@@ -40,13 +42,9 @@ export default function LoginPage() {
             </div>
           </div>
 
-          {adminConfigured() ? (
-            <LoginForm />
-          ) : (
-            <p className="rounded-2xl bg-amber-100 px-5 py-4 text-sm text-amber-900">
-              Set <code>ADMIN_PASSWORD</code> in <code>.env.local</code> and restart the server to enable the admin panel.
-            </p>
-          )}
+          <Suspense fallback={<div className="h-[136px] animate-pulse rounded-2xl bg-surface" />}>
+            <LoginGate />
+          </Suspense>
         </div>
 
         <div data-reveal className="mx-auto hidden w-full max-w-[520px] lg:block">
@@ -54,5 +52,18 @@ export default function LoginPage() {
         </div>
       </AdminMotion>
     </section>
+  );
+}
+
+// Checked per request: env vars set only at runtime (e.g. on a VPS) would otherwise be frozen
+// at build time, and an already logged-in admin goes straight to the dashboard.
+async function LoginGate() {
+  if (await isAdmin()) redirect("/admin");
+  return adminConfigured() ? (
+    <LoginForm />
+  ) : (
+    <p className="rounded-2xl bg-amber-100 px-5 py-4 text-sm text-amber-900">
+      Set <code>ADMIN_PASSWORD</code> in <code>.env.local</code> and restart the server to enable the admin panel.
+    </p>
   );
 }

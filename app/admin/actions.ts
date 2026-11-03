@@ -5,6 +5,9 @@ import { redirect } from "next/navigation";
 import { checkPassword, endSession, requireAdmin, startSession } from "@/lib/auth";
 import { update, type BookingStatus, type MessageStatus } from "@/lib/store";
 
+const MESSAGE_STATUSES: MessageStatus[] = ["new", "read", "archived"];
+const BOOKING_STATUSES: BookingStatus[] = ["pending", "confirmed", "done", "cancelled"];
+
 export async function login(_: string | null, d: FormData): Promise<string | null> {
   if (!checkPassword(String(d.get("password") ?? ""))) {
     // small delay to slow down password guessing
@@ -22,6 +25,7 @@ export async function logout() {
 
 export async function setMessageStatus(id: string, status: MessageStatus) {
   await requireAdmin();
+  if (!MESSAGE_STATUSES.includes(status)) return;
   await update("messages", (items) => {
     const m = items.find((x) => x.id === id);
     if (m) m.status = status;
@@ -40,6 +44,7 @@ export async function deleteMessage(id: string) {
 
 export async function setBookingStatus(id: string, status: BookingStatus) {
   await requireAdmin();
+  if (!BOOKING_STATUSES.includes(status)) return;
   await update("bookings", (items) => {
     const b = items.find((x) => x.id === id);
     if (b) b.status = status;
