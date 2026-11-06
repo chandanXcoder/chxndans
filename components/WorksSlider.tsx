@@ -74,6 +74,7 @@ export default function WorksSlider({
             <Link
               href={`/work/${p.slug}`}
               aria-label={`${p.title} case study`}
+              data-cursor-text="View"
               className={`relative grid aspect-[4/3] place-items-center overflow-hidden rounded-[1.5rem] md:rounded-[2rem] ${stages[i % 2]}`}
             >
               {p.image && (

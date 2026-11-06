@@ -15,6 +15,7 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
           href={href}
           className={`block ${index % 2 ? "" : "lg:order-2"}`}
           aria-label={`${p.title} case study`}
+          data-cursor-text="View"
         >
           <ProjectVisual p={p} index={index} className="aspect-[4/3] md:aspect-[16/10] lg:aspect-[4/3]" />
         </Link>

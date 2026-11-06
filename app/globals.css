@@ -580,3 +580,12 @@ main {
     animation: none;
   }
 }
+
+/* custom cursor (components/Cursor.tsx) hides the native one on fine pointers */
+html.has-custom-cursor,
+html.has-custom-cursor * {
+  cursor: none !important;
+}
+html.has-custom-cursor :is(input, textarea, [contenteditable="true"]) {
+  cursor: text !important;
+}

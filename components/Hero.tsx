@@ -4,6 +4,7 @@ import { useRef } from "react";
 import Image from "next/image";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { hero, site } from "@/lib/content";
 import Button from "./ui/Button";
 import { techIcons } from "./illustrations/techIcons";
@@ -20,7 +21,7 @@ const stack = [
   techIcons.github,
 ];
 
-gsap.registerPlugin(useGSAP);
+gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 export default function Hero() {
   const ref = useRef<HTMLElement>(null);
@@ -55,7 +56,13 @@ export default function Hero() {
             { scale: 1.2, duration: 1.8, ease: "power3.out" },
             0.2,
           )
-          .from(".hero-chip", { y: 20, opacity: 0, duration: 0.9, stagger: 0.12 }, 0.9);
+          // yPercent (not y) so the hover parallax below can own x/y
+          .from(".hero-chip", { yPercent: 40, opacity: 0, duration: 0.9, stagger: 0.12 }, 0.9);
+
+        // scroll: the portrait card eases back and the photo drifts inside its frame
+        const st = { trigger: ref.current, start: "top top", end: "bottom top", scrub: true };
+        gsap.to(".hero-card", { yPercent: -6, scale: 0.94, ease: "none", scrollTrigger: st });
+        gsap.fromTo(".hero-photo-inner", { yPercent: 0 }, { yPercent: 8, ease: "none", scrollTrigger: st });
 
         // stack logos light up in their brand colour, one after another
         const wave = gsap.timeline({ repeat: -1, repeatDelay: 1.6, delay: 2 });
@@ -64,6 +71,68 @@ export default function Hero() {
             .to(el, { fill: el.dataset.brand, y: -4, duration: 0.3, ease: "power2.out" }, i * 0.12)
             .to(el, { fill: "rgba(13,14,16,0.35)", y: 0, duration: 0.5, ease: "power2.in", clearProps: "fill,transform" }, i * 0.12 + 0.45);
         });
+      });
+
+      // portrait hover: 3D tilt, light glare, photo + chip parallax (mouse/trackpad only)
+      mm.add("(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)", () => {
+        const card = ref.current!.querySelector<HTMLElement>(".hero-card")!;
+        const glare = card.querySelector<HTMLElement>(".hero-glare")!;
+        gsap.set(card, { transformPerspective: 1000 });
+
+        const ease = { duration: 0.7, ease: "power3" };
+        const tiltX = gsap.quickTo(card, "rotationX", ease);
+        const tiltY = gsap.quickTo(card, "rotationY", ease);
+        const imgX = gsap.quickTo(".hero-photo-inner", "x", ease);
+        const imgY = gsap.quickTo(".hero-photo-inner", "y", ease);
+        const chips = gsap.utils.toArray<HTMLElement>(".hero-chip").map((el, i) => ({
+          x: gsap.quickTo(el, "x", { duration: 0.9, ease: "power3" }),
+          y: gsap.quickTo(el, "y", { duration: 0.9, ease: "power3" }),
+          depth: i % 2 ? -28 : 36, // chips float off the card in opposite directions
+        }));
+
+        const onMove = (e: MouseEvent) => {
+          const r = card.getBoundingClientRect();
+          const px = (e.clientX - r.left) / r.width; // 0 … 1
+          const py = (e.clientY - r.top) / r.height;
+          const nx = px - 0.5;
+          const ny = py - 0.5;
+          tiltY(nx * 14);
+          tiltX(-ny * 12);
+          imgX(-nx * 18);
+          imgY(-ny * 18);
+          chips.forEach((c) => {
+            c.x(nx * c.depth);
+            c.y(ny * c.depth);
+          });
+          glare.style.setProperty("--gx", `${px * 100}%`);
+          glare.style.setProperty("--gy", `${py * 100}%`);
+        };
+        const onEnter = (e: MouseEvent) => {
+          onMove(e);
+          gsap.to(".hero-photo img", { scale: 1.08, duration: 0.8, ease: "power3" });
+          gsap.to(glare, { opacity: 1, duration: 0.4 });
+        };
+        const onLeave = () => {
+          tiltX(0);
+          tiltY(0);
+          imgX(0);
+          imgY(0);
+          chips.forEach((c) => {
+            c.x(0);
+            c.y(0);
+          });
+          gsap.to(".hero-photo img", { scale: 1, duration: 0.8, ease: "power3" });
+          gsap.to(glare, { opacity: 0, duration: 0.5 });
+        };
+
+        card.addEventListener("mousemove", onMove);
+        card.addEventListener("mouseenter", onEnter);
+        card.addEventListener("mouseleave", onLeave);
+        return () => {
+          card.removeEventListener("mousemove", onMove);
+          card.removeEventListener("mouseenter", onEnter);
+          card.removeEventListener("mouseleave", onLeave);
+        };
       });
     },
     { scope: ref },
@@ -134,18 +203,30 @@ export default function Hero() {
         </div>
 
         {/* framed portrait: one name plate inside, two proof chips outside */}
-        <div className="relative mx-auto w-full max-w-[400px] sm:max-w-[420px] lg:mr-0 lg:max-w-[440px] xl:max-w-[480px]">
+        <div className="hero-card relative mx-auto w-full max-w-[400px] sm:max-w-[420px] lg:mr-0 lg:max-w-[440px] xl:max-w-[480px]">
           <div aria-hidden className="absolute -inset-8 rounded-[3rem] bg-glow/50 blur-3xl" />
           <div aria-hidden className="absolute inset-0 translate-x-4 translate-y-4 rounded-[2rem] border border-line sm:translate-x-5 sm:translate-y-5" />
 
           <div className="hero-photo relative aspect-[4/5] overflow-hidden rounded-[2rem] bg-surface shadow-[0_40px_80px_-32px_rgba(13,14,16,0.45)] ring-1 ring-black/10">
-            <Image
-              src={site.photo}
-              alt="Chandan Verma"
-              fill
-              preload
-              sizes="(min-width: 1024px) 480px, 420px"
-              className="object-cover object-[50%_18%]"
+            {/* oversized so the hover/scroll parallax never shows the frame's edge */}
+            <div className="hero-photo-inner absolute -inset-[6%]">
+              <Image
+                src={site.photo}
+                alt="Chandan Verma"
+                fill
+                preload
+                sizes="(min-width: 1024px) 520px, 460px"
+                className="object-cover object-[50%_18%]"
+              />
+            </div>
+            {/* soft light that follows the cursor across the photo */}
+            <div
+              aria-hidden
+              className="hero-glare pointer-events-none absolute inset-0 opacity-0 mix-blend-soft-light"
+              style={{
+                background:
+                  "radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(255,255,255,0.75), rgba(255,255,255,0) 55%)",
+              }}
             />
             <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black/65 via-black/20 to-transparent" />
             <div className="absolute inset-x-5 bottom-5 flex items-end justify-between gap-3 text-white">
